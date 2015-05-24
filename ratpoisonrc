@@ -1,0 +1,37 @@
+set border 0
+startup_message off
+
+# Make the prefix something less common
+escape M-space
+
+# Add standard alt-tabbing for frames and win-tabbing for windows in frames
+definekey top M-Tab focus
+definekey top M-ISO_Left_Tab focusprev
+
+definekey top s-Tab next
+definekey top s-ISO_Left_Tab prev
+
+# Run prompt
+definekey top s-r exec 
+
+# Open common programs easily
+definekey top s-w exec google-chrome
+definekey top s-c exec xterm
+
+# Audio keys
+definekey top XF86AudioMute execa audio_toggle.sh
+definekey top XF86AudioLowerVolume execa audio_down.sh
+definekey top XF86AudioRaiseVolume execa audio_up.sh 
+
+# "Maximize"
+bind x only
+
+# Battery check
+bind b execa ~/bin/battery.sh 
+
+# Everything is ready
+echo Welcome back
+
+# Start up dropbox
+exec ~/bin/start_dropbox.sh
+
