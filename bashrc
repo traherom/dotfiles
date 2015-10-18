@@ -107,8 +107,11 @@ fi
 
 # Add user bin directory to PATH
 export ANDROID_NDK_HOME="/opt/android-ndk"
-export GOPATH="~"
 export PATH="/usr/local/sbin:/usr/local/bin:$PATH:~/bin:/Applications/Android Studio.app/sdk/tools:/Applications/Android Studio.app/sdk/platform-tools:$ANDROID_NDK_HOME:/opt/apktool:/usr/local/go/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+export GOPATH="$HOME/go"
+
+# Add all GOPATH bins to PATH
+export PATH="$PATH:${GOPATH//://bin:}/bin"
 
 
