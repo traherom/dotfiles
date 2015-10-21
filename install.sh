@@ -13,6 +13,11 @@ rm -f ~/.bashrc
 ln -s "$(pwd)/bash_profile" ~/.profile
 ln -s "$(pwd)/bashrc" ~/.bashrc
 
+echo i3
+rm -fr ~/.i3
+mkdir ~/.i3
+ln -s "$(pwd)/i3config" ~/.i3/config
+
 echo VIM
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
