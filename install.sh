@@ -17,6 +17,7 @@ echo i3
 rm -fr ~/.i3
 mkdir ~/.i3
 ln -s "$(pwd)/i3config" ~/.i3/config
+ln -s "$(pwd)/i3status.conf" ~/.i3/i3status.conf
 
 echo VIM
 rm -f ~/.vimrc
