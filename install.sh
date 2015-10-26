@@ -27,6 +27,12 @@ ln -s ~/.vimrc ~/.gvimrc
 #git clone https://github.com/tpope/vim-pathogen.git ~/.vim/
 #mkdir -p ~/.vim/bundle
 
+echo EMACS
+rm -f ~/.spacemacs
+rm -rf ~/.emacs.d
+ln -s "$(pwd)/emacs.d" ~/.emacs.d
+ln -s "$(pwd)/spacemacs" ~/.spacemacs
+
 echo Git
 rm -f ~/.gitconfig
 ln -s "$(pwd)/gitconfig" ~/.gitconfig
