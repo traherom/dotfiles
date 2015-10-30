@@ -200,6 +200,7 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  (global-linum-mode)
 
   ;; Navigate by visual line
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
