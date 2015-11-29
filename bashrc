@@ -114,4 +114,9 @@ export GOPATH="$HOME/go"
 # Add all GOPATH bins to PATH
 export PATH="$PATH:${GOPATH//://bin:}/bin"
 
+# Add anything needed for just this machine
+MACHINE_SPECIFIC="$HOME/.bash_local"
+if [ -e "$MACHINE_SPECIFIC" ]; then
+	source "$MACHINE_SPECIFIC"
+fi
 

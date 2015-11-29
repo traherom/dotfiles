@@ -1,3 +1,16 @@
-Host server
+Host home
 	HostName home.moreharts.com
+	User traherom
+
+Host aegisprod
+	HostName www.aegisrnd.com
+	User traherom
+
+Host soteriatest
+	Hostname 192.168.1.131
+	User traherom
+
+Host soteriaprod
+	Hostname 104.131.248.38
+	User traherom
 
