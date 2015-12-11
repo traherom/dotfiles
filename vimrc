@@ -1,8 +1,7 @@
 set nocompatible
 
 """""""""""""""""""""""
-" Plugin settings
-
+" Plugins
 " Load vim-plug
 if empty(glob("~/.vim/autoload/plug.vim"))
 	execute '!mkdir -p ~/.vim/autoload'
@@ -13,6 +12,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Tab completion
+Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 
 " Fuzzy file search
@@ -26,6 +26,9 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 
 " Javascript
 Plug 'pangloss/vim-javascript'
+
+" Go
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Writing/markdown
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
