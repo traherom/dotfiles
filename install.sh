@@ -18,12 +18,18 @@ rm -fr ~/.i3
 ln -s "$(pwd)/i3"  ~/.i3
 
 echo VIM
+rm -f ~/.vim
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
+ln -s "$(pwd)/vim" ~/.vim
 ln -s "$(pwd)/vimrc" ~/.vimrc
 ln -s ~/.vimrc ~/.gvimrc
-#git clone https://github.com/tpope/vim-pathogen.git ~/.vim/
-#mkdir -p ~/.vim/bundle
+vim -E -s <<-EOF
+	:source ~/.vimrc
+	:PlugInstall
+	:PlugClean
+	:qa
+EOF
 
 echo EMACS
 rm -f ~/.spacemacs
