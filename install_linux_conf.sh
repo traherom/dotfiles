@@ -2,6 +2,13 @@
 echo Curl
 sudo apt-get install -y curl
 
+echo Compiling YouCompleteMe
+sudo apt-get install -y build-essential cmake python-dev
+basedir=$(pwd)
+cd ~/.vim/plugged/YouCompleteMe
+./install.py --clang-completer
+cd "$basedir"
+
 echo Ratpoison
 rm -f ~/.ratpoisonrc
 ln -s "$(pwd)/ratpoisonrc" ~/.ratpoisonrc
