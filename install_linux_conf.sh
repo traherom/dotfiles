@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+echo Curl
+sudo apt-get install -y curl
+
 echo Ratpoison
 rm -f ~/.ratpoisonrc
 ln -s "$(pwd)/ratpoisonrc" ~/.ratpoisonrc

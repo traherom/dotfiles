@@ -15,17 +15,21 @@ ln -s "$(pwd)/bashrc" ~/.bashrc
 
 echo i3
 rm -fr ~/.i3
-mkdir ~/.i3
-ln -s "$(pwd)/i3config" ~/.i3/config
-ln -s "$(pwd)/i3status.conf" ~/.i3/i3status.conf
+ln -s "$(pwd)/i3"  ~/.i3
 
 echo VIM
+rm -f ~/.vim
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
+ln -s "$(pwd)/vim" ~/.vim
 ln -s "$(pwd)/vimrc" ~/.vimrc
 ln -s ~/.vimrc ~/.gvimrc
-#git clone https://github.com/tpope/vim-pathogen.git ~/.vim/
-#mkdir -p ~/.vim/bundle
+vim -E -s <<-EOF
+	:source ~/.vimrc
+	:PlugInstall
+	:PlugClean
+	:qa
+EOF
 
 echo EMACS
 rm -f ~/.spacemacs
