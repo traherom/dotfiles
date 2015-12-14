@@ -1,34 +1,30 @@
+" Very high-level stuff
 set nocompatible
+let mapleader = " "    " I really like spacemacs use of spacebar as the leader
 
 """""""""""""""""""""""
 " Plugins
 " Load vim-plug
 if empty(glob("~/.vim/autoload/plug.vim"))
-	execute '!mkdir -p ~/.vim/autoload'
-	execute '!mkdir -p ~/.vim/plugged'
-    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+  execute '!mkdir -p ~/.vim/autoload'
+  execute '!mkdir -p ~/.vim/plugged'
+  execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
 call plug#begin('~/.vim/plugged')
 
-" Tab completion
-Plug 'Valloric/YouCompleteMe'
+" Languages/Tab completion
 Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'pangloss/vim-javascript'
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Fuzzy file search
 Plug 'ctrlpvim/ctrlp.vim'
 
 " General syntax checking
 Plug 'scrooloose/syntastic'
-
-" Python
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-
-" Javascript
-Plug 'pangloss/vim-javascript'
-
-" Go
-Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Writing/markdown
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
@@ -37,6 +33,8 @@ Plug 'reedes/vim-pencil'
 " Colorschemes
 Plug 'chriskempson/base16-vim'
 Plug 'tomasr/molokai'
+Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'flazz/vim-colorschemes'
 
 " Fancy status line
 Plug 'bling/vim-airline'
@@ -49,35 +47,45 @@ call plug#end()
 
 """"""""""""""""""""""""
 " Base VIM settings
-set encoding=utf-8
-set ttyfast
+set encoding=utf-8	" A sane default encoding
+set ttyfast					" We aren't in the 80s
 set noshowmode      " vim-airline will draw modeline
 set ruler           " line,col
-set showcmd
+set showcmd					" I frequently forget what I'm typing?
 set wildmenu                " Command completion
 set wildmode=list:longest   " List all matches and complete till longest common string
-set nohidden
+set hidden					" Nicer buffers
 
 " Buffer area visuals
 set scrolloff=7             " Minimal number of screen lines to keep above and below the cursor.
 set visualbell              " Use a visual bell, don't beep!
 set cursorline              " Highlight the current line
 set number                  " Show line numbers
+set relativenumber          " With both number and relativenumber set, VIM shows an abs number on the current line and relative elsewhere (v7)
 set wrap                    " Soft wrap at the window width
 set linebreak               " Break the line on words
 set textwidth=79            " Break lines at just under 80 characters
+set showmatch								" Briefly (match time) show the matching bracket
+set matchtime=2							" Tenths of a second to flash matching bracket
 
 "set secure
 
 " Editing settings
 set tabstop=2
 set autoindent
+set expandtab
 set shiftwidth=2
+
+" Return to last edit position when opening files, except git commit message
+autocmd BufReadPost *
+			\ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+			\   exe "normal g`\"" |
+			\ endif
 
 " Text display
 "set background=light
 syntax on
-colorscheme molokai
+colorscheme Tomorrow-Night
 if !has("gui_running")
 	set t_Co=256                " enable 256 colors
 "	let g:rehash256 = 1
@@ -107,8 +115,8 @@ set ignorecase
 set smartcase
 set incsearch
 
-noremap <Leader>t :noautocmd vimgrep /tbd/j **<CR>:cw<CR>
-
+""""""""""""""""""""""""""
+" Key Bindings
 " Navigate using displayed lines not actual lines
 "set whichwrap+=<,>
 nnoremap j gj
@@ -137,30 +145,54 @@ vnoremap < <gv
 vnoremap > >gv
 vnoremap = =gv
 
+" Fix indenting on paste
+nnoremap <Leader>p p
+nnoremap <Leader>P P
+nnoremap p p'[v']=
+nnoremap P P'[v']=
+
+" Bindings here are (similar) to spacemacs
+" Easy buffer management
+nnoremap <Leader>bd :bdelete<cr>
+nnoremap <Leader>bn :bnext<cr>
+nnoremap <Leader>bp :bprevious<cr>
+
+" Easy window mangement
+nnoremap <Leader>wj <C-w><C-j>
+nnoremap <Leader>wk <C-w><C-k>
+nnoremap <Leader>wl <C-w><C-l>
+nnoremap <Leader>wh <C-w><C-h>
+
+nnoremap <Leader>wc <C-w><C-c>
+nnoremap <Leader>ws :sp<cr>
+nnoremap <Leader>wv :vsp<cr>
+
+" File search management
+nnoremap <Leader>ff <C-p>
+
+" Easily run make/equivalent build
+nnoremap <Leader>m :make<cr>
+
+" Allow w!! to write a file as sudo even if not opened that way
+cmap w!! %!sudo tee >/dev/null %
+
 " Disable Ex mode
-" Nobody ever uses "Ex" mode, and it's annoying to leave
 noremap Q <nop>
 
 """""""""""""""""""""""""""""""""
 " Plugin settings
-" Return to last edit position when opening files, except git commit message
-autocmd BufReadPost *
-    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
-
 " Ctrl-P
 let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_custom_ignore = { 
+let g:ctrlp_custom_ignore = {
     \ 'dir': '\v[\/]\.(git|hg|svn|sass-cache|pip_download_cache|wheel_cache)$',
     \ 'file': '\v\.(png|jpg|jpeg|gif|DS_Store|pyc)$',
     \ 'link': '',
     \ }
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_clear_cache_on_exit = 0
-"" Wait to update results (This should fix the fact that backspace is so slow)
+" Wait to update results (This should fix the fact that backspace is so slow)
 let g:ctrlp_lazy_update = 1
-"" Show as many results as our screen will allow
+" Show as many results as our screen will allow
 let g:ctrlp_match_window = 'max:1000'
 
 " If we have The Silver Searcher
@@ -175,11 +207,6 @@ if executable('ag')
 	" ag is fast enough that CtrlP doesn't need to cache
 	let g:ctrlp_use_caching = 0
 endif
-
-
-" Jedi Python Autocomplete
-let g:jedi#use_tabs_not_buffers = 0 " Jedi needs you to unset this default to get to splits
-let g:jedi#use_splits_not_buffers = "bottom"
 
 """""""""""""""""""""""""""""""""
 " Machine-specific VIM settings?
