@@ -18,12 +18,14 @@ rm -fr ~/.i3
 ln -s "$(pwd)/i3"  ~/.i3
 
 echo VIM
-rm -f ~/.vim
+rm -rf ~/.vim
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
 ln -s "$(pwd)/vim" ~/.vim
 ln -s "$(pwd)/vimrc" ~/.vimrc
 ln -s ~/.vimrc ~/.gvimrc
+
+echo Install VIM plugins...
 vim -E -s <<-EOF
 	:source ~/.vimrc
 	:PlugInstall
