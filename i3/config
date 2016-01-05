@@ -177,6 +177,9 @@ bar {
 
 # Ensure dropbox runs (if it exists) and open a terminal by default
 exec i3-sensible-terminal
-exec ~/.i3/wifi-as-needed.sh
 exec dropbox start 
+
+# Machine-specific settings
+exec ~/.i3/wifi-as-needed.sh
+exec ~/.i3/local.sh
 

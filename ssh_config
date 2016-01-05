@@ -14,3 +14,12 @@ Host soteriaprod
 	Hostname 104.131.248.38
 	User traherom
 
+Host edifytest
+  Hostname 104.131.66.239
+  User traherom
+
+Host laconiclyprod
+  Hostname laconicly.com
+  User mrschell
+
+
