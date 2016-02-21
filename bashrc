@@ -119,4 +119,3 @@ MACHINE_SPECIFIC="$HOME/.bash_local"
 if [ -e "$MACHINE_SPECIFIC" ]; then
 	source "$MACHINE_SPECIFIC"
 fi
-

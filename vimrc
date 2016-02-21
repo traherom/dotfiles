@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
 
 " Languages/Tab completion
 Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'pangloss/vim-javascript'
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -28,7 +28,7 @@ Plug 'scrooloose/syntastic'
 
 " Writing/markdown
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-pencil'
+Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " Colorschemes
 Plug 'chriskempson/base16-vim'
@@ -37,6 +37,7 @@ Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'flazz/vim-colorschemes'
 
 " Fancy status line
+Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-airline'
 
 " Indent navigation
@@ -62,7 +63,7 @@ set visualbell              " Use a visual bell, don't beep!
 set cursorline              " Highlight the current line
 set number                  " Show line numbers
 set relativenumber          " With both number and relativenumber set, VIM shows an abs number on the current line and relative elsewhere (v7)
-set wrap                    " Soft wrap at the window width
+set nowrap                    " Soft wrap at the window width
 set linebreak               " Break the line on words
 set textwidth=79            " Break lines at just under 80 characters
 set showmatch								" Briefly (match time) show the matching bracket
