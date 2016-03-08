@@ -21,6 +21,7 @@ echo VIM
 rm -rf ~/.vim
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
+mkdir ~/.vimundo
 ln -s "$(pwd)/vim" ~/.vim
 ln -s "$(pwd)/vimrc" ~/.vimrc
 ln -s ~/.vimrc ~/.gvimrc
@@ -33,15 +34,23 @@ vim -E -s <<-EOF
 	:qa
 EOF
 
+echo tmux
+rm -f ~/.tmux.conf
+ln -s "$(pwd)/tmux.conf" ~/.tmux.conf
+
 echo EMACS
-rm -f ~/.spacemacs
-rm -rf ~/.emacs.d
-ln -s "$(pwd)/emacs.d" ~/.emacs.d
-ln -s "$(pwd)/spacemacs" ~/.spacemacs
+#rm -f ~/.spacemacs
+#rm -rf ~/.emacs.d
+#ln -s "$(pwd)/emacs.d" ~/.emacs.d
+#ln -s "$(pwd)/spacemacs" ~/.spacemacs
 
 echo Git
 rm -f ~/.gitconfig
 ln -s "$(pwd)/gitconfig" ~/.gitconfig
+
+echo HG
+rm -f ~/.hgrc
+ln -s "$(pwd)/hgrc" ~/.hgrc
 
 echo Making bin directory
 mkdir -p ~/bin

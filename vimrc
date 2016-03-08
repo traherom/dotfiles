@@ -77,6 +77,12 @@ set autoindent
 set expandtab
 set shiftwidth=2
 
+" Carry undo history across sessions
+set undofile
+set undodir=~/.vimundo/
+set undolevels=1000
+set undoreload=10000
+
 " Return to last edit position when opening files, except git commit message
 autocmd BufReadPost *
 			\ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
@@ -157,6 +163,7 @@ nnoremap P P'[v']=
 nnoremap <Leader>bd :bdelete<cr>
 nnoremap <Leader>bn :bnext<cr>
 nnoremap <Leader>bp :bprevious<cr>
+nnoremap <Leader>bs :CtrlPBuffer<cr>
 
 " Easy window mangement
 nnoremap <Leader>wj <C-w><C-j>
@@ -196,6 +203,7 @@ let g:ctrlp_lazy_update = 1
 " Show as many results as our screen will allow
 let g:ctrlp_match_window = 'max:1000'
 
+
 " If we have The Silver Searcher
 if executable('ag')
 	" Use ag over grep
@@ -207,7 +215,13 @@ if executable('ag')
 
 	" ag is fast enough that CtrlP doesn't need to cache
 	let g:ctrlp_use_caching = 0
+else
+  " No ag, so use git to list files 
+  let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 endif
+
+" Markdown
+let g:vim_markdown_folding_disabled = 1
 
 """""""""""""""""""""""""""""""""
 " Machine-specific VIM settings?
