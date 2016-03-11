@@ -122,6 +122,9 @@ set ignorecase
 set smartcase
 set incsearch
 
+" Tags
+set tags=./tags;/ " Search all the way up to root if needed to find the ctags
+
 """"""""""""""""""""""""""
 " Key Bindings
 " Navigate using displayed lines not actual lines
