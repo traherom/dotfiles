@@ -1,6 +1,6 @@
 #!/bin/bash
 # Always set up env correctly
-source $HOME/.bash_profile
-shift
-exec $@
+source $HOME/.profile
+echo Running "$@"
+exec "$@"
 
