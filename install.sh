@@ -1,29 +1,31 @@
 #!/bin/bash
-cd "$( dirname "${BASH_SOURCE[0]}" )"
-echo Linking config files to $(pwd)
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$DIR"
+
+echo Linking config files to $DIR
 
 # Installs generic *nix stuff, then calls appropriate OS-specific scripts
 echo Screen
 rm -f ~/.screenrc
-ln -s "$(pwd)/screenrc" ~/.screenrc
+ln -s "$DIR/screenrc" ~/.screenrc
 
 echo Bash
 rm -f ~/.profile
 rm -f ~/.bashrc
-ln -s "$(pwd)/bash_profile" ~/.profile
-ln -s "$(pwd)/bashrc" ~/.bashrc
+ln -s "$DIR/bash_profile" ~/.profile
+ln -s "$DIR/bashrc" ~/.bashrc
 
 echo i3
 rm -fr ~/.i3
-ln -s "$(pwd)/i3"  ~/.i3
+ln -s "$DIR/i3"  ~/.i3
 
 echo VIM
 rm -rf ~/.vim
 rm -f ~/.vimrc
 rm -f ~/.gvimrc
-mkdir ~/.vimundo
-ln -s "$(pwd)/vim" ~/.vim
-ln -s "$(pwd)/vimrc" ~/.vimrc
+mkdir -p ~/.vimundo
+ln -s "$DIR/vim" ~/.vim
+ln -s "$DIR/vimrc" ~/.vimrc
 ln -s ~/.vimrc ~/.gvimrc
 
 echo Install VIM plugins...
@@ -36,24 +38,28 @@ EOF
 
 echo tmux
 rm -f ~/.tmux.conf
-ln -s "$(pwd)/tmux.conf" ~/.tmux.conf
+ln -s "$DIR/tmux.conf" ~/.tmux.conf
 
 echo EMACS
 #rm -f ~/.spacemacs
 #rm -rf ~/.emacs.d
-#ln -s "$(pwd)/emacs.d" ~/.emacs.d
-#ln -s "$(pwd)/spacemacs" ~/.spacemacs
+#ln -s "$DIR/emacs.d" ~/.emacs.d
+#ln -s "$DIR/spacemacs" ~/.spacemacs
 
 echo Git
 rm -f ~/.gitconfig
-ln -s "$(pwd)/gitconfig" ~/.gitconfig
+ln -s "$DIR/gitconfig" ~/.gitconfig
 
 echo HG
 rm -f ~/.hgrc
-ln -s "$(pwd)/hgrc" ~/.hgrc
+ln -s "$DIR/hgrc" ~/.hgrc
 
 echo Making bin directory
 mkdir -p ~/bin
+
+echo runcron script
+rm -f ~/bin/runcron.sh
+ln -s "$DIR/runcron.sh" ~/bin/runcron.sh
 
 echo Copying SSH config and keys
 mkdir -p ~/.ssh
@@ -62,7 +68,7 @@ mkdir -p ~/.ssh
 #chmod 600 ~/.ssh/id_rsa
 #chmod 611 ~/.ssh/id_rsa.pub
 rm -f ~/.ssh/config
-ln -s "$(pwd)/ssh_config" ~/.ssh/config
+ln -s "$DIR/ssh_config" ~/.ssh/config
 chmod 611 ~/.ssh/config
 
 echo Doing OS-specific configuration
