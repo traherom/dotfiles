@@ -50,7 +50,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[00;34m\]\w\[\033[00m\]\n\$ '
+    PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[1;34m\]\w\[\033[00m\]\n\$ '
 else
     PS1='\n${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
 fi
@@ -105,9 +105,12 @@ then
 	alias open=xdg-open
 fi
 
+# Always use 256 colors for tmux
+alias tmux='tmux -2'
+
 # Add user bin directory to PATH
 export ANDROID_NDK_HOME="/opt/android-ndk"
-export PATH="/usr/local/sbin:/usr/local/bin:$PATH:~/bin:/Applications/Android Studio.app/sdk/tools:/Applications/Android Studio.app/sdk/platform-tools:$ANDROID_NDK_HOME:/opt/apktool:/usr/local/go/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:$PATH:~/bin:$HOME/.local/bin:/Applications/Android Studio.app/sdk/tools:/Applications/Android Studio.app/sdk/platform-tools:$ANDROID_NDK_HOME:/opt/apktool:/usr/local/go/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 export GOPATH="$HOME/go"
 
@@ -119,4 +122,3 @@ MACHINE_SPECIFIC="$HOME/.bash_local"
 if [ -e "$MACHINE_SPECIFIC" ]; then
 	source "$MACHINE_SPECIFIC"
 fi
-

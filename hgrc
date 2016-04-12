@@ -1,0 +1,14 @@
+[ui]
+# name and email, e.g.
+# username = Jane Doe <jdoe@example.com>
+username = Ryan Morehart <r.morehart@aegisrnd.com>
+
+[extensions]
+# uncomment these lines to enable some popular extensions
+# (see "hg help extensions" for more info)
+#
+pager =
+progress =
+color =
+strip =
+

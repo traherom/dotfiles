@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
 
 " Languages/Tab completion
 Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'pangloss/vim-javascript'
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -28,7 +28,7 @@ Plug 'scrooloose/syntastic'
 
 " Writing/markdown
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-pencil'
+Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " Colorschemes
 Plug 'chriskempson/base16-vim'
@@ -36,6 +36,7 @@ Plug 'tomasr/molokai'
 Plug 'chriskempson/vim-tomorrow-theme'
 
 " Fancy status line
+Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-airline'
 
 " Indent navigation
@@ -61,7 +62,7 @@ set visualbell              " Use a visual bell, don't beep!
 set cursorline              " Highlight the current line
 set number                  " Show line numbers
 set relativenumber          " With both number and relativenumber set, VIM shows an abs number on the current line and relative elsewhere (v7)
-set wrap                    " Soft wrap at the window width
+set nowrap                    " Soft wrap at the window width
 set linebreak               " Break the line on words
 set textwidth=79            " Break lines at just under 80 characters
 set showmatch								" Briefly (match time) show the matching bracket
@@ -74,6 +75,12 @@ set tabstop=2
 set autoindent
 set expandtab
 set shiftwidth=2
+
+" Carry undo history across sessions
+set undofile
+set undodir=~/.vimundo/
+set undolevels=1000
+set undoreload=10000
 
 " Return to last edit position when opening files, except git commit message
 autocmd BufReadPost *
@@ -113,6 +120,9 @@ let g:airline_theme='zenburn'  " Airline theme
 set ignorecase
 set smartcase
 set incsearch
+
+" Tags
+set tags=./tags;/ " Search all the way up to root if needed to find the ctags
 
 """"""""""""""""""""""""""
 " Key Bindings
@@ -155,6 +165,7 @@ nnoremap P P'[v']=
 nnoremap <Leader>bd :bdelete<cr>
 nnoremap <Leader>bn :bnext<cr>
 nnoremap <Leader>bp :bprevious<cr>
+nnoremap <Leader>bs :CtrlPBuffer<cr>
 
 " Easy window mangement
 nnoremap <Leader>wj <C-w><C-j>
@@ -194,6 +205,7 @@ let g:ctrlp_lazy_update = 1
 " Show as many results as our screen will allow
 let g:ctrlp_match_window = 'max:1000'
 
+
 " If we have The Silver Searcher
 if executable('ag')
 	" Use ag over grep
@@ -205,7 +217,13 @@ if executable('ag')
 
 	" ag is fast enough that CtrlP doesn't need to cache
 	let g:ctrlp_use_caching = 0
+else
+  " No ag, so use git to list files 
+  let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 endif
+
+" Markdown
+let g:vim_markdown_folding_disabled = 1
 
 """""""""""""""""""""""""""""""""
 " Machine-specific VIM settings?
