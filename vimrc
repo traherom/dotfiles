@@ -14,10 +14,12 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Languages/Tab completion
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
 Plug 'ervandew/supertab'
 "Plug 'Valloric/YouCompleteMe'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Fuzzy file search
@@ -27,8 +29,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/syntastic'
 
 " Writing/markdown
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+"Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+"Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " Colorschemes
 Plug 'chriskempson/base16-vim'
@@ -40,7 +42,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-airline'
 
 " Indent navigation
-Plug 'michaeljsmith/vim-indent-object'
+"Plug 'michaeljsmith/vim-indent-object'
 
 filetype plugin indent on                   " required!
 call plug#end()
