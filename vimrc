@@ -34,7 +34,6 @@ Plug 'reedes/vim-pencil'
 Plug 'chriskempson/base16-vim'
 Plug 'tomasr/molokai'
 Plug 'chriskempson/vim-tomorrow-theme'
-Plug 'flazz/vim-colorschemes'
 
 " Fancy status line
 Plug 'bling/vim-airline'
