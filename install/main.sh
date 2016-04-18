@@ -30,7 +30,7 @@ fi
 
 "$DIR/install/install_docker.sh" || exit 1
 
-
+# Basic home directory structure
 echo Making bin directory
 mkdir -p "$HOME/bin"
 
