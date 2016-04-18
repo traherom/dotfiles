@@ -5,15 +5,17 @@ cd "$DIR"
 echo Linking config files to $DIR
 
 # Installs generic *nix stuff, then calls appropriate OS-specific scripts
-echo Screen
-rm -f ~/.screenrc
-ln -s "$DIR/screenrc" ~/.screenrc
-
 echo Bash
 rm -f ~/.profile
 rm -f ~/.bashrc
+echo "export DOTFILES_BASE=$DIR" >~/.dotfiles
 ln -s "$DIR/bash_profile" ~/.profile
 ln -s "$DIR/bashrc" ~/.bashrc
+source "$DIR/bash_profile"
+
+echo Screen
+rm -f ~/.screenrc
+ln -s "$DIR/screenrc" ~/.screenrc
 
 echo i3
 rm -fr ~/.i3
