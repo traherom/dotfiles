@@ -2,6 +2,12 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIR"
 
+# Curl, needed for installing docker
+if [[ "1"`which curl` == "1" ]]; then
+  echo Installing curl
+  sudo apt-get install -y curl || exit 1
+fi
+
 # Docker?
 if [[ "1"`which docker` == "1" ]]; then
   echo Installing docker

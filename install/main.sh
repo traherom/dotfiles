@@ -2,83 +2,82 @@
 DIR="$(realpath "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..")"
 cd "$DIR"
 
-echo Linking config files to $DIR
+smartLink() {
+  src="$DIR/$1"
+  dest="$HOME/$2"
 
-# Installs generic *nix stuff, then calls appropriate OS-specific scripts
+  if [ ! -e "$src" ]; then
+    echo "$src does not exist but a link to it was requested"
+    exit 2
+  fi
+
+  parent="$(dirname "$dest")"
+  if [ ! -e "$parent" ]; then
+    echo Creating "$parent"
+    mkdir -p "$parent" || exit 1
+  fi
+
+  echo "Linking $dest"
+  rm -rf "$dest" || exit 1
+  ln -s "$src" "$dest" || exit 1
+}
+
+# Installation of programs
+if [[ "1"`which ctags` == "1" ]]; then
+  echo Installing exuberant-ctags
+  sudo apt-get install -y exuberant-ctags || exit 1
+fi
+
+"$DIR/install/install_docker.sh" || exit 1
+
+
+echo Making bin directory
+mkdir -p "$HOME/bin"
+
+# Config files
 echo Bash
-rm -f ~/.profile
-rm -f ~/.bashrc
 echo "export DOTFILES_BASE=$DIR" >~/.dotfiles
-ln -s "$DIR/bash_profile" ~/.profile
-ln -s "$DIR/bashrc" ~/.bashrc
+smartLink bash_profile .profile
+smartLink bashrc .bashrc
 source "$DIR/bash_profile"
 
 echo Screen
-rm -f ~/.screenrc
-ln -s "$DIR/screenrc" ~/.screenrc
+smartLink screenrc .screenrc
 
 echo i3
-rm -fr ~/.i3
-ln -s "$DIR/i3"  ~/.i3
+smartLink i3 i3
+
+echo Ratpoison
+smartLink ratpoisonrc .ratpoisonrc
+
+echo Openbox
+smartLink openbox .config/openbox
 
 echo VIM
-sudo apt-get install -y exuberant-ctags || exit 1
-rm -rf ~/.vim || exit 1
-rm -f ~/.vimrc || exit 1
-rm -f ~/.gvimrc || exit 1
 mkdir -p ~/.vimundo || exit 1
-ln -s "$DIR/vim" ~/.vim || exit 1 
-ln -s "$DIR/vimrc" ~/.vimrc || exit 1
-ln -s ~/.vimrc ~/.gvimrc || exit 1
+smartLink vim .vim
+smartLink vimrc .vimrc
+smartLink vimrc .gvimrc
 
 echo Install VIM plugins...
 vim -E -s <<-EOF
 	:source ~/.vimrc
 	:PlugInstall
 	:PlugClean
+  :PlugUpgrade
 	:qa
 EOF
 
 echo tmux
-rm -f ~/.tmux.conf
-ln -s "$DIR/tmux.conf" ~/.tmux.conf
-
-echo EMACS
-#rm -f ~/.spacemacs
-#rm -rf ~/.emacs.d
-#ln -s "$DIR/emacs.d" ~/.emacs.d
-#ln -s "$DIR/spacemacs" ~/.spacemacs
+smartLink tmux.conf .tmux.conf
 
 echo Git
-rm -f ~/.gitconfig
-ln -s "$DIR/gitconfig" ~/.gitconfig
+smartLink gitconfig .gitconfig
 
 echo HG
-rm -f ~/.hgrc
-ln -s "$DIR/hgrc" ~/.hgrc
+smartLink hgrc .hgrc
 
-echo Making bin directory
-mkdir -p ~/bin
-
-echo runcron script
-rm -f ~/bin/runcron.sh
-ln -s "$DIR/runcron.sh" ~/bin/runcron.sh
-
-echo Copying SSH config and keys
-mkdir -p ~/.ssh
-#cp laptop.priv ~/.ssh/id_rsa
-#cp laptop.pub ~/.ssh/id_rsa.pub
-#chmod 600 ~/.ssh/id_rsa
-#chmod 611 ~/.ssh/id_rsa.pub
-rm -f ~/.ssh/config
-ln -s "$DIR/ssh_config" ~/.ssh/config
-chmod 611 ~/.ssh/config
-
-echo Doing OS-specific configuration
-if [ $(uname) == "Darwin" ]
-then
-	./install_osx_conf.sh
-else
-	./install_linux_conf.sh
-fi
+echo SSH
+smartLink ssh_config .ssh/config
+chmod 611 "$HOME/.ssh/config"
 
