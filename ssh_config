@@ -22,4 +22,8 @@ Host laconiclyprod
   Hostname laconicly.com
   User mrschell
 
+Host speardev
+  Hostname spear.moreharts.com
+  User traherom
+
 
