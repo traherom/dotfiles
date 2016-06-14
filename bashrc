@@ -5,6 +5,11 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Determine where our dotfiles are located
+if [ -f "$HOME/.dotfiles" ]; then
+  source "$HOME/.dotfiles"
+fi
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
@@ -110,7 +115,7 @@ alias tmux='tmux -2'
 
 # Add user bin directory to PATH
 export ANDROID_NDK_HOME="/opt/android-ndk"
-export PATH="/usr/local/sbin:/usr/local/bin:$PATH:~/bin:$HOME/.local/bin:/Applications/Android Studio.app/sdk/tools:/Applications/Android Studio.app/sdk/platform-tools:$ANDROID_NDK_HOME:/opt/apktool:/usr/local/go/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:$PATH:$HOME/bin:$DOTFILES_BASE/bin:$HOME/.local/bin:/Applications/Android Studio.app/sdk/tools:/Applications/Android Studio.app/sdk/platform-tools:$ANDROID_NDK_HOME:/opt/apktool:/usr/local/go/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 export GOPATH="$HOME/go"
 

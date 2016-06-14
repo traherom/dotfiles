@@ -2,16 +2,13 @@ Host home
 	HostName home.moreharts.com
 	User traherom
 
+Host dev
+  HostName 192.168.1.118
+  User traherom
+  ForwardX11 yes
+
 Host aegisprod
 	HostName www.aegisrnd.com
-	User traherom
-
-Host soteriatest
-	Hostname 192.168.1.131
-	User traherom
-
-Host soteriaprod
-	Hostname 104.131.248.38
 	User traherom
 
 Host edifytest
