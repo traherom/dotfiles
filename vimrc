@@ -65,8 +65,6 @@ set cursorline              " Highlight the current line
 set number                  " Show line numbers
 set relativenumber          " With both number and relativenumber set, VIM shows an abs number on the current line and relative elsewhere (v7)
 set nowrap                    " Soft wrap at the window width
-set linebreak               " Break the line on words
-set textwidth=79            " Break lines at just under 80 characters
 set showmatch								" Briefly (match time) show the matching bracket
 set matchtime=2							" Tenths of a second to flash matching bracket
 
@@ -157,10 +155,10 @@ vnoremap > >gv
 vnoremap = =gv
 
 " Fix indenting on paste
-nnoremap <Leader>p p
-nnoremap <Leader>P P
-nnoremap p p'[v']=
-nnoremap P P'[v']=
+"nnoremap <Leader>p p
+"nnoremap <Leader>P P
+"nnoremap p p'[v']=
+"nnoremap P P'[v']=
 
 " Bindings here are (similar) to spacemacs
 " Easy buffer management

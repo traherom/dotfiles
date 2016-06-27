@@ -44,20 +44,47 @@ esac
 force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
 
+# Fancy prompt
+in_ssh() {
+  if [[ "$1" == "" ]]; then
+    ppid="$PPID"
+  else
+    ppid="$1"
+  fi
+  comm="$(ps -o comm= $ppid)"
+  pppid="$(ps -o ppid= $ppid)" # Parent's PPID
+
+  echo "Comm: $comm PPPID: $pppid"
+
+  if [[ "$comm" == "sshd" ]]; then
+    echo "ssh"
+  elif [[ "$pppid" > 1 ]]; then
+    in_ssh $pppid
+  else
+    echo "not ssh"
+  fi
+
+}
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]$(in_ssh)\$(parse_git_branch)\[\033[00m\] \n$ "
+
 if [ "$color_prompt" = yes ]; then
-    PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[1;34m\]\w\[\033[00m\]\n\$ '
+  #PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[1;34m\]('$(parse_git_branch)')\w\[\033[00m\]\n\$ '
+  echo
 else
-    PS1='\n${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+  PS1='\n${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -95,13 +122,6 @@ fi
 # Change keybindings
 if [ -f ~/.bash_key_bindings ]; then
     bind -f ~/.bash_key_bindings
-fi
-
-# Todo.txt 
-export TODOTXT_DEFAULT_ACTION=ls
-alias t=todo.sh
-if [ -f ~/.todo_completion ]; then
-    source ~/.todo_completion
 fi
 
 # On anything without an open command, make one
