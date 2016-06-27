@@ -57,28 +57,43 @@ fi
 # Fancy prompt
 in_ssh() {
   if [[ "$1" == "" ]]; then
-    ppid="$PPID"
+    local ppid="$PPID"
   else
-    ppid="$1"
+    local ppid="$1"
   fi
-  comm="$(ps -o comm= $ppid)"
-  pppid="$(ps -o ppid= $ppid)" # Parent's PPID
 
-  echo "Comm: $comm PPPID: $pppid"
+  local comm="$(ps -o comm= $ppid)"
+  local pppid="$(ps -o ppid= $ppid)" # Parent's PPID
 
   if [[ "$comm" == "sshd" ]]; then
     echo "ssh"
   elif [[ "$pppid" > 1 ]]; then
     in_ssh $pppid
   else
-    echo "not ssh"
+    echo ""
+    return 0
   fi
-
+}
+color_unusual_user() {
+  if [[ `whoami` != "traherom" ]]; then
+    echo "\u"
+  fi
+}
+color_remote_host() {
+  if [[ `in_ssh` == "ssh" ]]; then
+    echo "@\[\033[1;34m\]\h\[\033[00m\]:"
+  fi
 }
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]$(in_ssh)\$(parse_git_branch)\[\033[00m\] \n$ "
+chroot_check() {
+  echo "${debian_chroot:+($debian_chroot)}"
+}
+workingdir() {
+  echo "\[\033[32m\]\w\[\033[33m\]"
+}
+export PS1="$(chroot_check)$(color_unusual_user)$(color_remote_host)$(workingdir)$(in_ssh)$(parse_git_branch)\[\033[00m\] \n$ "
 
 if [ "$color_prompt" = yes ]; then
   #PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[1;34m\]('$(parse_git_branch)')\w\[\033[00m\]\n\$ '
