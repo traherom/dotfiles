@@ -74,31 +74,28 @@ in_ssh() {
     return 0
   fi
 }
-color_unusual_user() {
+ps_user() {
   if [[ `whoami` != "traherom" ]]; then
     echo "\u"
   fi
 }
-color_remote_host() {
+ps_host() {
   if [[ `in_ssh` == "ssh" ]]; then
     echo "@\[\033[1;34m\]\h\[\033[00m\]:"
   fi
 }
-parse_git_branch() {
+ps_git() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-chroot_check() {
+ps_chroot() {
   echo "${debian_chroot:+($debian_chroot)}"
 }
-workingdir() {
+ps_wd() {
   echo "\[\033[32m\]\w\[\033[33m\]"
 }
-export PS1="$(chroot_check)$(color_unusual_user)$(color_remote_host)$(workingdir)$(in_ssh)$(parse_git_branch)\[\033[00m\] \n$ "
+export PS1="\n$(ps_chroot)$(ps_user)$(ps_host)$(ps_wd)$(in_ssh)$(ps_git) \n\[\033[00m\]$ "
 
-if [ "$color_prompt" = yes ]; then
-  #PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[1;34m\]('$(parse_git_branch)')\w\[\033[00m\]\n\$ '
-  echo
-else
+if [[ "$color_prompt" != "yes" ]]; then
   PS1='\n${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
 fi
 unset color_prompt force_color_prompt
