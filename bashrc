@@ -93,6 +93,7 @@ ps_chroot() {
 ps_wd() {
   echo "\[\033[32m\]\w\[\033[33m\]"
 }
+export -f ps_git
 export PS1="\n$(ps_chroot)$(ps_user)$(ps_host)$(ps_wd)\$(ps_git) \n\[\033[00m\]$ "
 
 if [[ "$color_prompt" != "yes" ]]; then

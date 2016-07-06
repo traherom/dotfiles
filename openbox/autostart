@@ -1,0 +1,5 @@
+#!/bin/bash
+x-terminal-emulator &
+battery-monitor.sh &
+
+
