@@ -22,6 +22,13 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 
+" Project helpers
+" LucHermitte is for project-specific vim settings
+" To use, simply create a _vimrc_local.vim file at the root of the project
+Plug 'LucHermitte/lh-vim-lib'
+Plug 'LucHermitte/local_vimrc'
+Plug 'airblade/vim-gitgutter'
+
 " Fuzzy file search
 Plug 'ctrlpvim/ctrlp.vim'
 
