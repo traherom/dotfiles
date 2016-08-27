@@ -155,6 +155,15 @@ export GOPATH="$HOME/go"
 # Add all GOPATH bins to PATH
 export PATH="$PATH:${GOPATH//://bin:}/bin"
 
+# Enable virtualenvwrapper, assuming it's installed
+export WORKON_HOME="$HOME/venvs"
+export VIRTUALENVWRAPPER_PYTHON=python3
+if [ command -v virtualenvwrapper.sh >/dev/null 2>&1 ]; then
+  mkdir -p "$WORKON_HOME"
+  source `command -v virtualenvwrapper.sh`
+fi
+
+
 # Add anything needed for just this machine
 MACHINE_SPECIFIC="$HOME/.bash_local"
 if [ -e "$MACHINE_SPECIFIC" ]; then

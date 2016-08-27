@@ -198,6 +198,9 @@ noremap Q <nop>
 
 """""""""""""""""""""""""""""""""
 " Plugin settings
+" What should we use for project-specific vimrc settings?
+let g:local_vimrc = '.exrc'
+
 " Ctrl-P
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_custom_ignore = {
