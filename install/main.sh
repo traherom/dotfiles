@@ -64,6 +64,7 @@ mkdir -p "$HOME/bin"
 echo Bash
 echo "export DOTFILES_BASE=$DIR" >~/.dotfiles
 smartLink bash_profile .profile
+smartLink bash_profile .bash_profile
 smartLink bashrc .bashrc
 source "$DIR/bash_profile"
 

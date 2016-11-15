@@ -26,15 +26,5 @@ if [[ "1"`which docker` == "1" ]]; then
   docker --version || exit 1
 fi
 
-# Docker compose?
-if [[ "1"`which docker-compose` == "1" ]]; then
-  echo Installing docker-compose
-  sudo apt-get install -y curl || exit 1
-  sudo su -c 'curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname
-  -s`-`uname -m` > /usr/local/bin/docker-compose' || exit 1
-  sudo chmod +x /usr/local/bin/docker-compose || exit 1
-  docker-compose --version || exit 1
-fi
-
 echo "Docker installed"
 

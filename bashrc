@@ -169,3 +169,13 @@ MACHINE_SPECIFIC="$HOME/.bash_local"
 if [ -e "$MACHINE_SPECIFIC" ]; then
 	source "$MACHINE_SPECIFIC"
 fi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+# Pyenv
+export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+source ~/.pyenv/completions/pyenv.bash
+
