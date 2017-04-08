@@ -2,25 +2,15 @@ Host home
 	HostName home.moreharts.com
 	User traherom
 
-Host dev
-  HostName 192.168.1.118
-  User traherom
-  ForwardX11 yes
-
-Host aegisprod
-	HostName www.aegisrnd.com
-	User traherom
-
-Host edifytest
-  Hostname 104.131.66.239
-  User traherom
-
-Host laconiclyprod
-  Hostname laconicly.com
-  User mrschell
-
 Host speardev
   Hostname spear.moreharts.com
   User traherom
 
+Host demo
+  Hostname scanner-demo.xylok.io
+  User traherom
+
+Host scanner-master
+  Hostname master.xylok.io
+  User traherom
 

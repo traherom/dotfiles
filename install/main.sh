@@ -53,6 +53,12 @@ if ! progExists ctags; then
   sudo apt-get install -y exuberant-ctags || exit 1
 fi
 
+# Fish
+if ! progExists fish; then
+  echo Install fish
+  sudo apt install -y fish || exit 1
+fi
+
 # Docker
 "$DIR/install/install_docker.sh" || exit 1
 
@@ -67,6 +73,9 @@ smartLink bash_profile .profile
 smartLink bash_profile .bash_profile
 smartLink bashrc .bashrc
 source "$DIR/bash_profile"
+
+echo Fish
+smartLink fish .config/fish
 
 echo Screen
 smartLink screenrc .screenrc

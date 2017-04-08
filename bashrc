@@ -179,3 +179,6 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 source ~/.pyenv/completions/pyenv.bash
 
+
+export NVM_DIR="/home/traherom/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
