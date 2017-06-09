@@ -40,9 +40,9 @@ Plug 'scrooloose/syntastic'
 "Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " Colorschemes
-Plug 'chriskempson/base16-vim'
-Plug 'tomasr/molokai'
-Plug 'chriskempson/vim-tomorrow-theme'
+"Plug 'chriskempson/base16-vim'
+"Plug 'tomasr/molokai'
+"Plug 'chriskempson/vim-tomorrow-theme'
 
 " Fancy status line
 Plug 'vim-airline/vim-airline-themes'
@@ -98,7 +98,7 @@ autocmd BufReadPost *
 " Text display
 "set background=light
 syntax on
-colorscheme Tomorrow-Night
+"colorscheme Tomorrow-Night
 if !has("gui_running")
 	set t_Co=256                " enable 256 colors
 "	let g:rehash256 = 1

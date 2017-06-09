@@ -27,14 +27,6 @@ smartLink() {
 }
 
 # Installation of programs
-# Gnome-shell and native extension
-if ! progExists gnome-tweak-tool; then
-  echo "Install gnome-shell"
-  sudo add-apt-repository ppa:ne0sight/chrome-gnome-shell || exit 1
-  sudo apt-get update || exit 1
-  sudo apt-get install -y chrome-gnome-shell gnome-tweak-tool || exit 1
-fi
-
 # Python 3
 #if ! command -v python3 >/dev/null 2>&1; then
 if ! progExists python3; then
