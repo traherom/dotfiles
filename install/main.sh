@@ -44,7 +44,6 @@ if ! progExists ctags; then
   echo Installing exuberant-ctags
   sudo apt-get install -y exuberant-ctags || exit 1
 fi
-
 # Fish
 if ! progExists fish; then
   echo Install fish
@@ -68,6 +67,9 @@ source "$DIR/bash_profile"
 
 echo Fish
 smartLink fish .config/fish
+
+echo XFCE4
+smartLink xfce4 .config/xfce4
 
 echo Screen
 smartLink screenrc .screenrc
