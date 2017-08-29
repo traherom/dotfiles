@@ -47,13 +47,15 @@
       <property name="show-frame" type="bool" value="false"/>
       <property name="size-max" type="uint" value="22"/>
       <property name="names-visible" type="array">
-        <value type="string" value="network"/>
+        <value type="string" value="google-chrome"/>
         <value type="string" value="networkmanager applet"/>
-        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="google-chrome-stable"/>
+        <value type="string" value="network"/>
+        <value type="string" value="gigolo"/>
         <value type="string" value="task manager"/>
         <value type="string" value="blueman-applet"/>
-        <value type="string" value="google-chrome-stable"/>
-        <value type="string" value="google-chrome"/>
+        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="slack"/>
       </property>
     </property>
     <property name="plugin-6" type="string" value="indicator">
@@ -86,7 +88,9 @@
       <property name="rows" type="uint" value="1"/>
       <property name="miniature-view" type="bool" value="true"/>
     </property>
-    <property name="plugin-2" type="string" value="windowmenu"/>
+    <property name="plugin-2" type="string" value="windowmenu">
+      <property name="style" type="uint" value="0"/>
+    </property>
     <property name="plugin-10" type="string" value="systemload"/>
   </property>
   <property name="configver" type="int" value="2"/>

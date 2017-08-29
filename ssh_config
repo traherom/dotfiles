@@ -14,3 +14,8 @@ Host scanner-master
   Hostname master.xylok.io
   User traherom
 
+Host xylokprod
+  Hostname ec2-13-59-107-142.us-east-2.compute.amazonaws.com
+  User ec2-user
+  IdentityFile ~/.ssh/xylok.pem
+
