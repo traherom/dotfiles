@@ -65,6 +65,10 @@ smartLink bash_profile .bash_profile
 smartLink bashrc .bashrc
 source "$DIR/bash_profile"
 
+echo ZSH
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+smarkLink zshrc .zshrc
+
 echo Fish
 smartLink fish .config/fish
 

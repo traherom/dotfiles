@@ -10,6 +10,14 @@ end
 # Add personal binaries
 set -gx PATH ~/bin ~/.local/bin $PATH
 
+# Pyenv
+set -x PATH "/home/traherom/.pyenv/bin" $PATH
+status --is-interactive; and . (pyenv init -|psub)
+status --is-interactive; and . (pyenv virtualenv-init -|psub)
+
+# Pipenv
+eval (pipenv --completion)
+
 # Python/venv
-eval (/usr/bin/python3 -m virtualfish auto_activation)
+# eval (/usr/bin/python3 -m virtualfish auto_activation)
 

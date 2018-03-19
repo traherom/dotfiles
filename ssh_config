@@ -19,3 +19,7 @@ Host xylokprod
   User ec2-user
   IdentityFile ~/.ssh/xylok.pem
 
+Host git-codecommit.*.amazonaws.com
+  User APKAJ2H6GVD3Y3QHTUGA
+  IdentityFile ~/.ssh/id_rsa
+    

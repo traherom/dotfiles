@@ -2,6 +2,6 @@
 	email = ryan@moreharts.com
 	name = Ryan Morehart
 [core]
-	editor = vim
+	editor = nano
 [push]
 	default = simple

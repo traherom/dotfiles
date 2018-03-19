@@ -55,17 +55,24 @@
         <value type="string" value="task manager"/>
         <value type="string" value="blueman-applet"/>
         <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="insync.py"/>
         <value type="string" value="slack"/>
       </property>
     </property>
     <property name="plugin-6" type="string" value="indicator">
       <property name="blacklist" type="array">
+        <value type="string" value="com.canonical.indicator.keyboard"/>
         <value type="string" value="libappmenu.so"/>
       </property>
       <property name="known-indicators" type="array">
         <value type="string" value="libapplication.so"/>
         <value type="string" value="com.canonical.indicator.sound"/>
         <value type="string" value="com.canonical.indicator.messages"/>
+        <value type="string" value="com.canonical.indicator.bluetooth"/>
+        <value type="string" value="com.canonical.indicator.keyboard"/>
+        <value type="string" value="com.canonical.indicator.datetime"/>
+        <value type="string" value="com.canonical.indicator.session"/>
+        <value type="string" value="com.canonical.indicator.power"/>
       </property>
       <property name="single-row" type="bool" value="false"/>
       <property name="align-left" type="bool" value="false"/>
