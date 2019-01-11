@@ -1,7 +1,8 @@
 [user]
 	email = ryan@moreharts.com
-	name = Ryan Morehart
+	name = Ryan
 [core]
 	editor = nano
 [push]
 	default = simple
+	followTags = true

@@ -2,58 +2,6 @@
 set nocompatible
 let mapleader = " "    " I really like spacemacs use of spacebar as the leader
 
-"""""""""""""""""""""""
-" Plugins
-" Load vim-plug
-if empty(glob("~/.vim/autoload/plug.vim"))
-  execute '!mkdir -p ~/.vim/autoload'
-  execute '!mkdir -p ~/.vim/plugged'
-  execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-endif
-
-call plug#begin('~/.vim/plugged')
-
-" Languages/Tab completion
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
-Plug 'ervandew/supertab'
-"Plug 'Valloric/YouCompleteMe'
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'fatih/vim-go', { 'for': 'go' }
-
-" Project helpers
-" LucHermitte is for project-specific vim settings
-" To use, simply create a _vimrc_local.vim file at the root of the project
-Plug 'LucHermitte/lh-vim-lib'
-Plug 'LucHermitte/local_vimrc'
-Plug 'airblade/vim-gitgutter'
-
-" Fuzzy file search
-Plug 'ctrlpvim/ctrlp.vim'
-
-" General syntax checking
-Plug 'scrooloose/syntastic'
-
-" Writing/markdown
-"Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-"Plug 'reedes/vim-pencil', { 'for': 'markdown' }
-
-" Colorschemes
-"Plug 'chriskempson/base16-vim'
-"Plug 'tomasr/molokai'
-"Plug 'chriskempson/vim-tomorrow-theme'
-
-" Fancy status line
-Plug 'vim-airline/vim-airline-themes'
-Plug 'bling/vim-airline'
-
-" Indent navigation
-"Plug 'michaeljsmith/vim-indent-object'
-
-filetype plugin indent on                   " required!
-call plug#end()
-
 """"""""""""""""""""""""
 " Base VIM settings
 set encoding=utf-8	" A sane default encoding
@@ -103,24 +51,6 @@ if !has("gui_running")
 	set t_Co=256                " enable 256 colors
 "	let g:rehash256 = 1
 endif
-
-" UI elements
-set laststatus=2 " Show airline all the time
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='zenburn'  " Airline theme
-
-"set spell spelllang=en_us
-"set statusline=%t       "tail of the filename"
-"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding"
-"set statusline+=%{&ff}] "file format"
-"set statusline+=%h      "help file flag"
-"set statusline+=%m      "modified flag"
-"set statusline+=%r      "read only flag"
-"set statusline+=%y      "filetype"
-"set statusline+=%=      "left/right separator"
-"set statusline+=%c,     "cursor column"
-"set statusline+=%l/%L   "cursor line/total lines"
-"set statusline+=\ %P    "percent through file"
 
 " Search
 "set hlsearch
@@ -199,44 +129,3 @@ noremap Q <nop>
 """""""""""""""""""""""""""""""""
 " Plugin settings
 " What should we use for project-specific vimrc settings?
-let g:local_vimrc = '.exrc'
-
-" Ctrl-P
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/]\.(git|hg|svn|sass-cache|pip_download_cache|wheel_cache)$',
-    \ 'file': '\v\.(png|jpg|jpeg|gif|DS_Store|pyc)$',
-    \ 'link': '',
-    \ }
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_clear_cache_on_exit = 0
-" Wait to update results (This should fix the fact that backspace is so slow)
-let g:ctrlp_lazy_update = 1
-" Show as many results as our screen will allow
-let g:ctrlp_match_window = 'max:1000'
-
-
-" If we have The Silver Searcher
-if executable('ag')
-	" Use ag over grep
-	set grepprg=ag\ --nogroup\ --nocolor
-
-	" Use ag in CtrlP for listing files. Lightning fast and respects
-	" .gitignore
-	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-	" ag is fast enough that CtrlP doesn't need to cache
-	let g:ctrlp_use_caching = 0
-else
-  " No ag, so use git to list files 
-  let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-endif
-
-" Markdown
-let g:vim_markdown_folding_disabled = 1
-
-"""""""""""""""""""""""""""""""""
-" Machine-specific VIM settings?
-if filereadable(glob("$HOME/.vimrc.local"))
-	source $HOME/.vimrc.local
-endif

@@ -163,6 +163,9 @@ if command -v virtualenvwrapper.sh >/dev/null 2>&1; then
   source `command -v virtualenvwrapper.sh`
 fi
 
+# xclip helpers
+alias setclip="xclip -selection c"
+alias getclip="xclip -selection c -o"
 
 # Add anything needed for just this machine
 MACHINE_SPECIFIC="$HOME/.bash_local"
@@ -183,3 +186,19 @@ source ~/.pyenv/completions/pyenv.bash
 export NVM_DIR="/home/traherom/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 source /home/traherom/src/alacritty/alacritty-completions.bash
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# Only set up minikube if it's running
+# if ! minikube status | grep minikube | grep Stopped >/dev/null; then
+#   # eval $(minikube docker-env)
+#   source <(minikube completion bash)
+# fi
+
+source <(kubectl completion bash)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/traherom/Downloads/google-cloud-sdk/path.bash.inc' ]; then source '/home/traherom/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/traherom/Downloads/google-cloud-sdk/completion.bash.inc' ]; then source '/home/traherom/Downloads/google-cloud-sdk/completion.bash.inc'; fi

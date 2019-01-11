@@ -22,4 +22,9 @@ Host xylokprod
 Host git-codecommit.*.amazonaws.com
   User APKAJ2H6GVD3Y3QHTUGA
   IdentityFile ~/.ssh/id_rsa
-    
+
+Host xylokprod2 
+  Hostname 35.196.46.198 
+  User traherom
+  IdentityFile ~/.ssh/id_rsa
+

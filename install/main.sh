@@ -26,33 +26,6 @@ smartLink() {
   ln -s "$src" "$dest" || exit 1
 }
 
-# Installation of programs
-# Python 3
-#if ! command -v python3 >/dev/null 2>&1; then
-if ! progExists python3; then
-  echo "Install installing Python 3"
-  sudo apt-get install -y python3 python3-pip || exit 1
-fi
-
-if ! progExists virtualenvwrapper.sh; then
-  echo "Installing virtualenvwrapper"
-  pip3 install virtualenvwrapper
-fi
-
-# Ctags
-if ! progExists ctags; then
-  echo Installing exuberant-ctags
-  sudo apt-get install -y exuberant-ctags || exit 1
-fi
-# Fish
-if ! progExists fish; then
-  echo Install fish
-  sudo apt install -y fish || exit 1
-fi
-
-# Docker
-"$DIR/install/install_docker.sh" || exit 1
-
 # Basic home directory structure
 echo Making bin directory
 mkdir -p "$HOME/bin"
