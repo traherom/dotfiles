@@ -57,6 +57,10 @@ smartLink i3 i3
 echo Ratpoison
 smartLink ratpoisonrc .ratpoisonrc
 
+echo Qtile
+smartLink qtile .config/qtile
+sh qtile/setup.sh
+
 echo Openbox
 smartLink openbox .config/openbox
 
