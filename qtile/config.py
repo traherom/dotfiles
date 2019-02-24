@@ -33,11 +33,14 @@ from pathlib import Path
 import subprocess
 import re
 import logging
+from collections import namedtuple
 
 config_dir = Path(__file__).resolve().parent
 
 logging.basicConfig(filename=config_dir / "qtile-config.log", level=logging.DEBUG)
 LOG = logging.getLogger(__name__)
+
+Programs = namedtuple("Programs", "terminal,browser,files,editor")
 
 ################################
 # Helpers
@@ -96,7 +99,7 @@ def window_to_next_group():
 # Configuration items
 def init_colors():
     return {
-        "black": ["#2B303B", "#2B303B"],
+        "black": ["#000000", "#000000"],
         "grey": ["#40444D", "#424A5B"],
         "white": ["#C0C5CE", "#C0C5CE"],
         "red": ["#BF616A", "#BF616A"],
@@ -122,22 +125,22 @@ def init_keys():
         # Move windows up or down in current stack
         Key([mod, control], "k", lazy.layout.shuffle_down()),
         Key([mod, control], "j", lazy.layout.shuffle_up()),
+        Key([mod, control], "h", lazy.layout.shuffle_left()),
+        Key([mod, control], "l", lazy.layout.shuffle_right()),
         # Switch window focus to other pane(s) of stack
         Key([mod], "space", lazy.layout.next()),
-        # Swap panes of split stack
         Key([mod, shift], "space", lazy.layout.rotate()),
-        # Toggle between split and unsplit sides of stack.
-        # Split = all windows displayed
-        # Unsplit = 1 window displayed, like Max layout, but still with
-        # multiple stack panes
         Key([mod, shift], "Return", lazy.layout.toggle_split()),
-        Key([mod], "Return", lazy.spawn("mate-terminal")),
+        Key([mod, shift], "Tab", lazy.window.toggle_floating()),
         # Toggle between different layouts as defined below
         Key([mod], "Tab", lazy.next_layout()),
         # Program control
-        Key([mod], "w", lazy.window.kill()),
-        Key([mod], "p", lazy.spawn("rofi -show drun")),
-        Key([mod, shift], "p", lazy.spawn("rofi -show window")),
+        Key([mod], "z", lazy.window.kill()),
+        Key([mod], "a", lazy.spawn("rofi -show drun")),
+        Key([mod, shift], "a", lazy.spawn("rofi -show window")),
+        Key([mod], "q", lazy.spawn(programs.terminal)),
+        Key([mod], "e", lazy.spawn(programs.files)),
+        Key([mod], "w", lazy.spawn(programs.browser)),
         # Hardware control
         Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer sset Master 5%+")),
         Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset Master 5%-")),
@@ -152,7 +155,7 @@ def init_keys():
         Key(
             [mod, control],
             "e",
-            lazy.spawn("code '{}'".format(Path(__file__).resolve())),
+            lazy.spawn(f"{programs.editor} '{Path(__file__).resolve()}'"),
         ),
         Key([mod, control], "r", lazy.restart()),
         Key([mod, control], "q", lazy.shutdown()),
@@ -170,55 +173,48 @@ def init_group_keybindings(groups):
         keys.append(Key([mod, shift], str(i), lazy.window.togroup(group.name)))
 
 
-def init_layouts():
-    return [
-        layout.Max(),
-        layout.Stack(num_stacks=2),
-        layout.Matrix(),
-        # layout.Tile(),
-        layout.Columns(),
-        # layout.Bsp(),
-        layout.Zoomy(),
-        layout.Floating(),
-    ]
-
-
 def init_floating_layout():
     return layout.Floating(
         border_width=2, border_focus=colors["blue"][0], border_normal=colors["black"][0]
     )
 
 
+def init_layouts():
+    return [
+        layout.Columns(name="2col", num_columns=2),
+        layout.Columns(name="3col", num_columns=3),
+        layout.Max(),
+        # layout.Bsp(),
+    ]
+
+
 def init_groups():
     terminal_wm_class = "Mate-terminal"
     terminal_group_config = {
-        "layout": "columns",
-        "layouts": [layout.Columns(num_columns=3), layout.Matrix()],
-        "matches": [Match(wm_class=[terminal_wm_class])],
-        "exclusive": True,
+        # "layout": "2col",
+        # "layouts": [
+        #     layout.Columns(name="2col", num_columns=2),
+        #     layout.Columns(name="3col", num_columns=3),
+        #     layout.Max(),
+        # ],
+        # "exclusive": True,
     }
 
     return [
         Group(
-            "WWW",
-            layout="columns",
-            layouts=[layout.Max(), layout.Columns(num_columns=3)],
-            matches=[Match(wm_class=["Firefox", "Brave-browser", "Chrome-browser"])],
+            "1) WWW",
+            # layout="columns",
+            # layouts=[layout.Max(), layout.Columns(num_columns=2)],
         ),
         Group(
-            "Dev",
+            "2) Dev",
             layout="columns",
-            layouts=[layout.Columns(num_columns=2)],
-            matches=[Match(wm_class=["Code"])],
+            layouts=[layout.Columns(num_columns=2), layout.Max()],
         ),
-        Group("T1", **terminal_group_config),
-        Group("T2", **terminal_group_config),
-        Group("T3", **terminal_group_config),
-        Group(
-            "Misc",
-            layout="columns",
-            layouts=[layout.Max(), layout.Columns(num_columns=2)],
-        ),
+        Group("3) T1", **terminal_group_config),
+        Group("4) T2", **terminal_group_config),
+        Group("5) T3", **terminal_group_config),
+        Group("6) Floating", layout="floating", layouts=[layout.Floating()]),
     ]
 
 
@@ -231,17 +227,30 @@ def init_screens():
         Screen(
             top=bar.Bar(
                 [
-                    widget.Prompt(),
-                    widget.GroupBox(),
-                    widget.WindowName(),
+                    widget.Prompt(background=colors["grey"], ignore_dups_history=True),
+                    widget.GroupBox(
+                        background=colors["white"], foreground=colors["black"]
+                    ),
+                    widget.WindowName(
+                        background=colors["black"], foreground=colors["white"]
+                    ),
+                    widget.TextBox("CPU"),
+                    widget.CPUGraph(),
+                    widget.TextBox("Mem"),
                     widget.MemoryGraph(),
-                    widget.CurrentLayoutIcon(),
+                    widget.CurrentLayout(),
                     widget.Notify(),
                     widget.Systray(),
-                    widget.TextBox("🔉"),
-                    widget.Volume(),
-                    widget.Battery(format="🔋 {percent:2.0%}"),
-                    widget.Clock(format="%I:%M %p"),
+                    widget.TextBox("Vol", background=colors["red"]),
+                    widget.Volume(background=colors["red"]),
+                    widget.TextBox("Batt", background=colors["green"]),
+                    widget.Battery(format="{percent:2.0%}", background=colors["green"]),
+                    widget.Clock(
+                        format="%I:%M %p",
+                        background=colors["white"],
+                        foreground=colors["black"],
+                    ),
+                    widget.Spacer(length=5),
                 ],
                 30,
             )
@@ -318,6 +327,15 @@ def init_rules():
     ]
 
 
+def init_programs():
+    return Programs(
+        terminal="mate-terminal",
+        browser="sensible-browser",
+        files="caja",
+        editor="code",
+    )
+
+
 ######################################
 # Initialize
 if __name__ in ["config", "__main__"]:
@@ -329,6 +347,8 @@ if __name__ in ["config", "__main__"]:
     shift = "shift"
     control = "control"
 
+    programs = init_programs()
+
     colors = init_colors()
     # fonts = init_fonts()
 
@@ -338,7 +358,7 @@ if __name__ in ["config", "__main__"]:
     # layout_theme = init_layout_theme()
     # border_args = init_border_args()
 
-    # layouts = init_layouts()
+    layouts = init_layouts()
     groups = init_groups()
     init_group_keybindings(groups)
     dgroups_app_rules = init_rules()
