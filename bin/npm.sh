@@ -3,7 +3,7 @@ DIR="$(pwd)"
 docker run -it \
   -v "$DIR:/workingdir" \
   --workdir="/workingdir" \
-  node:5 \
+  node:latest \
   npm "$@" \
   || exit 1
 

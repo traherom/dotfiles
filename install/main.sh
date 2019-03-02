@@ -30,6 +30,10 @@ smartLink() {
 echo Making bin directory
 mkdir -p "$HOME/bin"
 
+# Pyenv
+sudo apt install -y curl
+curl https://pyenv.run | bash
+
 # Config files
 echo Bash
 echo "export DOTFILES_BASE=$DIR" >~/.dotfiles
@@ -59,6 +63,7 @@ smartLink ratpoisonrc .ratpoisonrc
 
 echo Qtile
 smartLink qtile .config/qtile
+sudo apt install python3-venv python3-dev build-essential
 sh qtile/setup.sh
 
 echo Openbox

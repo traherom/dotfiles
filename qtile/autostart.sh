@@ -7,7 +7,7 @@ xinput list --name-only | grep pad | xargs -n1 -INAME xinput set-prop 'NAME' 'li
 monitors=$(xrandr --listactivemonitors | head -n 1)
 if [ "$monitors" = "Monitors: 2" ]; then
     echo "Two monitors"
-    sh "$DIR/monitor-home-dock.sh"
+    sh "$DIR/monitor-external-only.sh"
 else
     echo $monitors
     sh "$DIR/monitor-laptop-only.sh"
@@ -19,3 +19,5 @@ nm-applet &
 # light-locker &
 mate-screensaver &
 mate-power-manager &
+
+discord &

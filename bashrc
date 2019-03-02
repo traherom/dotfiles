@@ -185,7 +185,6 @@ source ~/.pyenv/completions/pyenv.bash
 
 export NVM_DIR="/home/traherom/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-source /home/traherom/src/alacritty/alacritty-completions.bash
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 

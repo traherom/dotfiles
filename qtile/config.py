@@ -123,12 +123,18 @@ def init_keys():
         Key([mod], "k", lazy.layout.down()),
         Key([mod], "j", lazy.layout.up()),
         # Move windows up or down in current stack
-        Key([mod, control], "k", lazy.layout.shuffle_down()),
-        Key([mod, control], "j", lazy.layout.shuffle_up()),
-        Key([mod, control], "h", lazy.layout.shuffle_left()),
-        Key([mod, control], "l", lazy.layout.shuffle_right()),
+        Key([mod, control], "Down", lazy.layout.shuffle_down()),
+        Key([mod, control], "Up", lazy.layout.shuffle_up()),
+        Key([mod, control], "Left", lazy.layout.shuffle_left()),
+        Key([mod, control], "Right", lazy.layout.shuffle_right()),
+        # Resize layout
+        Key([mod, alt], "Up", lazy.layout.grow_up()),
+        Key([mod, alt], "Down", lazy.layout.grow_down()),
+        Key([mod, alt], "Left", lazy.layout.grow_left()),
+        Key([mod, alt], "Right", lazy.layout.grow_right()),
         # Switch window focus to other pane(s) of stack
         Key([mod], "space", lazy.layout.next()),
+        Key([alt], "Tab", lazy.layout.next()),
         Key([mod, shift], "space", lazy.layout.rotate()),
         Key([mod, shift], "Return", lazy.layout.toggle_split()),
         Key([mod, shift], "Tab", lazy.window.toggle_floating()),
@@ -147,7 +153,7 @@ def init_keys():
         Key([], "XF86AudioMute", lazy.spawn("amixer sset Master toggle")),
         Key([mod], "F1", lazy.spawn("lxrandr")),
         Key([mod], "F2", launch_script("monitor-laptop-only.sh")),
-        Key([mod], "F3", launch_script("monitor-home-dock.sh")),
+        Key([mod], "F3", launch_script("monitor-external-only.sh")),
         Key([mod], "F4", launch_script("monitor-projector.sh")),
         Key([mod], "F5", launch_script("monitor-mirror.sh")),
         # QTile
@@ -224,6 +230,19 @@ def init_widgets_defaults():
 
 def init_screens():
     return [
+        # Screen(
+        #     top=bar.Bar(
+        #         [
+        #             widget.GroupBox(
+        #                 background=colors["white"], foreground=colors["black"]
+        #             ),
+        #             widget.WindowName(
+        #                 background=colors["black"], foreground=colors["white"]
+        #             ),
+        #         ],
+        #         30,
+        #     )
+        # ),
         Screen(
             top=bar.Bar(
                 [
@@ -254,7 +273,7 @@ def init_screens():
                 ],
                 30,
             )
-        )
+        ),
     ]
 
 
