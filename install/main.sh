@@ -44,7 +44,7 @@ source "$DIR/bash_profile"
 
 echo ZSH
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-smarkLink zshrc .zshrc
+smartLink zshrc .zshrc
 
 echo Fish
 smartLink fish .config/fish
@@ -57,6 +57,12 @@ smartLink screenrc .screenrc
 
 echo i3
 smartLink i3 i3
+
+echo BSPWM
+smartLink bspwm/panel.sh .config/bspwm/panel.sh
+smartLink bspwm/bspwmrc .config/bspwm/bspwmrc
+smartLink bspwm/sxhkdrc .config/sxhkd/sxhkdrc
+smartLink bspwm/polybar .config/polybar/config
 
 echo Ratpoison
 smartLink ratpoisonrc .ratpoisonrc
