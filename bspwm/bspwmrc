@@ -44,5 +44,16 @@ bspc rule -a Conky sticky=on manage=off lower=on
 bspc rule -a astime sticky=on
 bspc rule -a feh floating=on manage=off
 
+# X changes
+xinput list --name-only | grep pad | xargs -n1 -INAME xinput set-prop 'NAME' 'libinput Tapping Enabled' 1
+
+# Autostart
 sxhkd &
 "$DIR/panel.sh" &
+/usr/lib/x86_64-linux-gnu/polkit-mate/polkit-mate-authentication-agent-1 &
+nm-applet &
+# light-locker &
+mate-screensaver &
+mate-power-manager &
+discord &
+
