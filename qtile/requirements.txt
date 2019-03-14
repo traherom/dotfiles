@@ -1,4 +1,4 @@
-iwlib==1.6.1
+#iwlib==1.6.1
 qtile==0.13.0
 cairocffi
 xcffib
