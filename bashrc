@@ -194,10 +194,22 @@ export NVM_DIR="/home/traherom/.nvm"
 #   source <(minikube completion bash)
 # fi
 
-source <(kubectl completion bash)
+if command -v kubectl 2>/dev/null; then
+  source <(kubectl completion bash)
+fi
+
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/traherom/Downloads/google-cloud-sdk/path.bash.inc' ]; then source '/home/traherom/Downloads/google-cloud-sdk/path.bash.inc'; fi
+if [ -f ~/Downloads/google-cloud-sdk/path.bash.inc ]; then
+  source ~/Downloads/google-cloud-sdk/path.bash.inc;
+fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/traherom/Downloads/google-cloud-sdk/completion.bash.inc' ]; then source '/home/traherom/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f ~/Downloads/google-cloud-sdk/completion.bash.inc ]; then
+  source ~/Downloads/google-cloud-sdk/completion.bash.inc;
+fi
+
+if [ -d ~/src/xylok ]; then
+  xylok() { cd ~/src/xylok ; }
+  xylok
+fi
