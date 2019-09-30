@@ -30,9 +30,14 @@ smartLink() {
 echo Making bin directory
 mkdir -p "$HOME/bin"
 
-# Pyenv
+# Pyenv, pipx
 sudo apt install -y curl
-curl https://pyenv.run | bash
+if ! command -v pyenv; then
+  sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+    xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+  curl https://pyenv.run | bash
+fi
 
 # Config files
 echo Bash
@@ -43,7 +48,6 @@ smartLink bashrc .bashrc
 source "$DIR/bash_profile"
 
 echo ZSH
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 smartLink zshrc .zshrc
 
 echo Fish
@@ -70,7 +74,7 @@ smartLink ratpoisonrc .ratpoisonrc
 echo Qtile
 smartLink qtile .config/qtile
 sudo apt install python3-venv python3-dev build-essential
-sh qtile/setup.sh
+# sh qtile/setup.sh
 
 echo Openbox
 smartLink openbox .config/openbox
@@ -102,7 +106,3 @@ smartLink hgrc .hgrc
 echo SSH
 smartLink ssh_config .ssh/config
 chmod 611 "$HOME/.ssh/config"
-
-
-# Ensure we can find anything we just installed
-sudo updatedb

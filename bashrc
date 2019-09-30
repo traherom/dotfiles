@@ -211,5 +211,5 @@ fi
 
 if [ -d ~/src/xylok ]; then
   xylok() { cd ~/src/xylok ; }
-  xylok
+  #xylok
 fi
