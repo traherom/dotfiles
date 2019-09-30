@@ -211,5 +211,9 @@ fi
 
 if [ -d ~/src/xylok ]; then
   xylok() { cd ~/src/xylok ; }
-  #xylok
+
+  if grep -q Microsoft /proc/version; then
+    echo "Detected Linux on Windows, switching to Xylok folder"
+    xylok
+  fi
 fi
