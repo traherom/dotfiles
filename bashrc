@@ -194,7 +194,7 @@ export NVM_DIR="/home/traherom/.nvm"
 #   source <(minikube completion bash)
 # fi
 
-if command -v kubectl 2>/dev/null; then
+if command -v kubectl >/dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
 
