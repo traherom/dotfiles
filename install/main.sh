@@ -26,12 +26,23 @@ smartLink() {
   ln -s "$src" "$dest" || exit 1
 }
 
+smartInstall() {
+  if progExists apt; then
+    sudo apt install -y $@
+  elif progExists dnf; then
+    sudo dnf install -y $@
+  else
+    echo "Unable to install, no installer found"
+    exit 1
+  fi
+}
+
 # Basic home directory structure
 echo Making bin directory
 mkdir -p "$HOME/bin"
 
 # Pyenv, pipx
-sudo apt install -y curl
+smartInstall curl
 if ! command -v pyenv; then
   sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
@@ -84,15 +95,6 @@ mkdir -p ~/.vimundo || exit 1
 smartLink vim .vim
 smartLink vimrc .vimrc
 smartLink vimrc .gvimrc
-
-echo Install VIM plugins...
-vim -E -s <<-EOF
-	:source ~/.vimrc
-	:PlugInstall
-	:PlugClean
-  :PlugUpgrade
-	:qa
-EOF
 
 echo tmux
 smartLink tmux.conf .tmux.conf
