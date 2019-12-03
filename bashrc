@@ -177,6 +177,7 @@ fi
 export PATH="/usr/local/heroku/bin:$PATH"
 
 # Pyenv
+export PIP_REQUIRE_VIRTUALENV=true
 export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"

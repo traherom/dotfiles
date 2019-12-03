@@ -1,0 +1,3 @@
+[submodule "bin/tablet-mode"]
+	path = bin/tablet-mode
+	url = https://github.com/conqp/tablet-mode.git
