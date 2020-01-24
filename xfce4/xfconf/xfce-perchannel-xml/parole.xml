@@ -11,7 +11,7 @@
     <property name="font" type="string" value="Sans Bold 20"/>
   </property>
   <property name="folders" type="empty">
-    <property name="last-used-media" type="string" value="/home/traherom/Downloads/City of Ember (2008)"/>
+    <property name="last-used-media" type="string" value="/home/traherom/Downloads"/>
   </property>
   <property name="window" type="empty">
     <property name="maximized" type="bool" value="false"/>
