@@ -3,6 +3,13 @@
 	name = Ryan
 [core]
 	editor = nano
+	autocrlf = input
 [push]
 	default = simple
 	followTags = true
+[pull]
+	rebase = false
+[sequence]
+	editor = interactive-rebase-tool
+[cola]
+	spellcheck = false
