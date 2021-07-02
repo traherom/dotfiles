@@ -64,6 +64,9 @@ smartLink zshrc .zshrc
 echo Fish
 smartLink fish .config/fish
 
+echo Starship
+smartLink starship.toml .config/starship.toml
+
 echo XFCE4
 smartLink xfce4 .config/xfce4
 
