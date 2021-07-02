@@ -17,3 +17,19 @@ Host testing
 Host 14ts
     HostName 209.97.148.70
     User traherom
+
+
+Host build
+    HostName 165.22.42.194
+    User root
+
+Host vm-centos7
+    HostName 192.168.122.231
+    User traherom
+
+Host vm-centos8
+    HostName 192.168.122.240
+    User traherom
+
+Host 192.168.122.87
+    HostName 192.168.122.87
