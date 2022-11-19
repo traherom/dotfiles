@@ -1,0 +1,14 @@
+development:
+  hosts:
+    devtop:
+      ansible_host:
+        devtop.home.moreharts.com
+
+servers:
+  hosts:
+    public:
+      ansible_host:
+        home.moreharts.com
+    vm-host:
+      ansible_host:
+        vm-host.home.moreharts.com

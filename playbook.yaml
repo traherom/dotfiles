@@ -1,0 +1,3 @@
+- import_playbook: './playbooks/general.yaml'
+- import_playbook: './playbooks/development.yaml'
+- import_playbook: './playbooks/servers.yaml'

@@ -1,0 +1,51 @@
+- name: General
+  hosts: all
+  tasks:
+  - name: 1password repo
+    become: yes
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
+      state: present
+      filename: 1password.list
+  - name: Docker repo
+    become: yes
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu kinetic stable
+      state: present
+      filename: docker.list
+  - name: Node
+    become: yes
+    ansible.builtin.apt_repository:
+      repo: |
+        deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
+        deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
+      state: present
+      filename: node.list
+  - name: Signal
+    become: yes
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
+      state: present
+      filename: signal.list
+  - name: Vivaldi
+    become: yes
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64] https://repo.vivaldi.com/stable/deb/ stable main
+      state: present
+      filename: vivaldi.list
+  - name: VS Code
+    become: yes
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64,arm64,armhf] http://packages.microsoft.com/repos/code stable main
+      state: present
+      filename: vscode.list
+  - name: Update
+    become: yes
+    ansible.builtin.apt:
+      upgrade: full
+      update_cache: yes
+  
+  # Install git
+  # Install docker
+  # Install wireguard-tools and wg-quick?
+  # Add traherom to docker group

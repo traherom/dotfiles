@@ -1,0 +1,36 @@
+- name: Development systems
+  hosts: development
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+
+  # Install Vivaldi
+  # Install VS Code
+  # Install JetBrains Toolbox
+    # Make start on login
+    # Make it install WebStorm/PyCharm/Rider?
+  # Install 1Password
+    # Configure ssh daemon access
+    # Make start on login
+  # Install Discord
+  # Install Signal
+  # Configure KDE Connect
+  # Clone xylok repo?
+  # Install Fish
+    # Fish config files
+  # Copy in
+    # ...restart-kde script
+    # ...KDE settings?
+    # ...Vivaldi Profile?
+  # Enable firewall, allow SSH and wireguard port
+
+
+
+- name: Laptop
+  hosts: devtop
+  tasks:
+    - name: Add intel mesa driver's for Lutris/WINE
+      ansible.builtin.apt_repository:
+        repo: deb https://ppa.launchpadcontent.net/kisak/kisak-mesa/ubuntu/ kinetic main
+        state: present
+        filename: kisak-ubuntu-kisak-mesa-kinetic.list
