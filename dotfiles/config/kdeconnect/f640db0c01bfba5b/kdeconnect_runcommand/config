@@ -1,0 +1,2 @@
+[General]
+commands="@ByteArray({\"_3f7077a8_db3c_4785_9562_899244f055bb_\":{\"command\":\"loginctl unlock-session\",\"name\":\"Unlock Screen\"},\"_baafbb68_fb71_4d3a_b900_9e081aa19526_\":{\"command\":\"/home/traherom/bin/restart-kde\",\"name\":\"Restart KDE\"},\"_be962801_852d_48b5_bf01_bfda9dade4e3_\":{\"command\":\"reboot\",\"name\":\"Reboot\"}})"

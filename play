@@ -1,4 +1,8 @@
 #!/bin/sh
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 cd "$dir"
-ansible-playbook --ask-become-pass -i inventory.yaml playbook.yaml
+
+ansible-playbook \
+    --ask-become-pass \
+    -i inventory.yaml \
+    playbook.yaml "$@"

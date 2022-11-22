@@ -1,0 +1,59 @@
+[Desktop Entry]
+DefaultProfile=Mine.profile
+
+[FileLocation]
+scrollbackUseCacheLocation=true
+scrollbackUseSystemLocation=false
+
+[General]
+ConfigVersion=1
+
+[KFileDialog Settings]
+Recent Files[$e]=file:$HOME/src/xylok/utils/xylok-konsole-layout.json,file:$HOME/src/xylok/utils/xylok-konsole-layout.json
+Recent URLs[$e]=file:$HOME/src/xylok/utils/
+detailViewIconSize=16
+
+[KonsoleWindow]
+ShowWindowTitleOnTitleBar=true
+
+[MainWindow]
+DP-3-2-8 Height 2752x1152=1087
+DP-3-2-8 Height 3440x1440=1367
+DP-3-2-8 Width 2752x1152=1376
+DP-3-2-8 Width 3440x1440=1720
+DP-3-2-8 XPosition 2752x1152=1376
+DP-3-2-8 XPosition 3440x1440=0
+DP-3-2-8 YPosition 2752x1152=65
+DP-3-2-8 YPosition 3440x1440=73
+DP-3-2-8 eDP-1 Height 1504x1003=945
+DP-3-2-8 eDP-1 Height 2752x1152=529
+DP-3-2-8 eDP-1 Width 1504x1003=1504
+DP-3-2-8 eDP-1 Width 2752x1152=1376
+DP-3-2-8 eDP-1 Window-Maximized 1504x1003=true
+DP-3-2-8 eDP-1 Window-Maximized 3440x1440=true
+DP-3-2-8 eDP-1 XPosition 1805x1203=1289
+DP-3-2-8 eDP-1 XPosition 2752x1152=3632
+DP-3-2-8 eDP-1 YPosition 1805x1203=46
+DP-3-2-8 eDP-1 YPosition 2752x1152=182
+RestorePositionForNextInstance=false
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAvsAAAAiAFEAdQBpAGMAawBDAG8AbQBtAGEAbgBkAHMARABvAGMAawAAAAAA/////wAAAUoBAAAD+wAAABwAUwBTAEgATQBhAG4AYQBnAGUAcgBEAG8AYwBrAAAAAAD/////AAAA0wEAAAMAAAa4AAAFOQAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIAAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAAAAAAD/////AAAAAAAAAAA=
+ToolBarsMovable=Disabled
+eDP-1 Height 1504x1003=946
+eDP-1 Height 1805x1203=1138
+eDP-1 Height 2256x1504=701
+eDP-1 Width 1504x1003=752
+eDP-1 Width 1805x1203=902
+eDP-1 Width 2256x1504=1128
+eDP-1 Window-Maximized 1504x1003=true
+eDP-1 XPosition 1504x1003=0
+eDP-1 XPosition 1805x1203=902
+eDP-1 XPosition 2256x1504=0
+eDP-1 YPosition 1504x1003=27
+eDP-1 YPosition 1805x1203=65
+eDP-1 YPosition 2256x1504=73
+
+[TabBar]
+CloseTabOnMiddleMouseButton=true
+
+[UiSettings]
+ColorScheme=Breeze Light

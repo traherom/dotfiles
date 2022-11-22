@@ -1,51 +1,183 @@
 - name: General
   hosts: all
   tasks:
-  - name: 1password repo
+  # Remote state tracker location
+  - name: Creating location to track ansible status on remote
+    become: yes
+    file:
+      path: "{{ state_storage_dir }}/"
+      state: directory
+  
+  # Sources
+  - name: Find repos
+    ansible.builtin.include_vars:
+      file: vars/ubuntu-repos.yaml
+
+  - name: Keys for apt (ASC)
+    become: yes
+    ansible.builtin.shell:
+      chdir: /etc/apt/keyrings
+      creates: "{{ item.keyfilename }}"
+      cmd: "wget -O- {{ item.keyurl }} | gpg --dearmor >{{ item.keyfilename }}"
+    with_items:
+      "{{ sources }}"
+
+  - name: "APT sources (raw)"
     become: yes
     ansible.builtin.apt_repository:
-      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
+      update_cache: no
       state: present
-      filename: 1password.list
-  - name: Docker repo
+      repo: "{{ item.repo }}"
+      filename: "{{ item.repofilename }}"
+    with_items:
+      "{{ sources }}"
+
+  - name: "APT sources (ppa)"
     become: yes
     ansible.builtin.apt_repository:
-      repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu kinetic stable
-      state: present
-      filename: docker.list
-  - name: Node
-    become: yes
-    ansible.builtin.apt_repository:
-      repo: |
-        deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
-        deb-src [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
-      state: present
-      filename: node.list
-  - name: Signal
-    become: yes
-    ansible.builtin.apt_repository:
-      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
-      state: present
-      filename: signal.list
-  - name: Vivaldi
-    become: yes
-    ansible.builtin.apt_repository:
-      repo: deb [arch=amd64] https://repo.vivaldi.com/stable/deb/ stable main
-      state: present
-      filename: vivaldi.list
-  - name: VS Code
-    become: yes
-    ansible.builtin.apt_repository:
-      repo: deb [arch=amd64,arm64,armhf] http://packages.microsoft.com/repos/code stable main
-      state: present
-      filename: vscode.list
+      repo: "{{ item }}"
+    with_items:
+      "{{ ppas }}"
+
   - name: Update
     become: yes
     ansible.builtin.apt:
       upgrade: full
       update_cache: yes
-  
-  # Install git
-  # Install docker
-  # Install wireguard-tools and wg-quick?
-  # Add traherom to docker group
+
+  # Installs
+  - name: Core utils
+    become: yes
+    ansible.builtin.apt:
+      update_cache: no
+      name: "{{ item }}"
+    with_items:
+      - git
+      - docker
+      - wireguard-tools
+      - jq
+      - gdu
+      - openssh-server
+      - fish
+      - curl
+      - unzip
+      - pipx
+      
+  - name: Adding snap packages
+    become: yes
+    snap:
+      name: "{{ item }}"
+    with_items:
+      - starship
+
+  # Firewall
+  - name: Enable firewall
+    become: yes
+    community.general.ufw:
+      state: enabled
+      policy: allow
+  - name: Rate-limit SSH
+    become: yes
+    community.general.ufw:
+      rule: limit
+      port: ssh
+      proto: tcp
+  - name: Allow wireguard
+    become: yes
+    community.general.ufw:
+      rule: allow
+      port: 51820
+      proto: udp
+  - name: Default-deny firewall
+    become: yes
+    community.general.ufw:
+      state: enabled
+      policy: deny
+
+  # Starship prompt
+  - name: NerdFont for Starship 
+    become: yes
+    ansible.builtin.shell:
+      chdir: /tmp
+      creates: "/usr/local/share/fonts/Ubuntu Mono Nerd Font Complete.ttf"
+      cmd: |
+        mkdir font;
+        cd font;
+        wget https://github.com/ryanoasis/nerd-fonts/releases/download/{{ font.version }}/{{ font.name }}.zip;
+        unzip {{ font.name }}.zip;
+        mv *.ttf /usr/local/share/fonts/;
+        rm -rf /tmp/font/;
+        fc-cache -f -v;
+
+  # User directories
+  - name: Remove unwanted dirs
+    ansible.builtin.file:
+      state: absent
+      path: "~{{ ansible_user }}/{{ item }}"
+    with_items:
+      - "Videos"
+      - "Music"
+      - "Pictures"
+      - "Public"
+      - "Templates"
+
+  - name: Add common directories for user
+    file:
+      path: "~{{ ansible_user }}/{{ item }}"
+      state: directory
+    with_items:
+      - "bin"
+      - "src"
+      - ".config/kdeconnect"
+
+  # Add user to docker group
+  - name: Adding "{{ ansible_user }}" to docker group
+    ansible.builtin.user:
+      name: "{{ ansible_user }}"
+      groups: docker
+      append: yes
+
+  # Link up dotfiles
+  - name: Copy dotfiles to host
+    ansible.builtin.copy:
+      src: '../'
+      dest: "{{ remote_pets_path }}"
+    register: dotfiles_copy_result
+
+  - name: Link config files to dotfiles
+    when: "dotfiles_copy_result.changed"
+    ansible.builtin.file:
+      state: link
+      force: yes
+      path: "~{{ ansible_user }}/{{ item.path | default('.' ~ item.target) }}"
+      src: "{{ dotfiles_path }}/{{ item.target }}"
+    with_items:
+      - target: "bashrc"
+      - target: "bash_profile"
+      - target: "gitconfig"
+      - target: "tmux.conf"
+      - target: "vimrc"
+      - target: "i3"
+      - target: "ssh/config"
+      - target: "config/fish"
+      - target: "config/kdeconnect/f640db0c01bfba5b"
+      - target: "config/starship.toml"
+      - target: "config/katerc"
+      - target: "config/kateschemarc"
+      - target: "config/katevirc"
+      - target: "config/kcmfonts"
+      - target: "config/kcminputrc"
+      - target: "config/kdeglobals"
+      - target: "config/kglobalshortcutsrc"
+      - target: "config/khotkeysrc"
+      - target: "config/kiorc"
+      - target: "config/klaunchrc"
+      - target: "config/konsolerc"
+      - target: "config/konsolesshconfig"
+      - target: "config/korgacrc"
+      - target: "config/krunnerrc"
+      - target: "config/kscreenlockerrc"
+      - target: "config/kuriikwsfilterrc"
+      - target: "config/kwalletrc"
+      - target: "config/kwinrc"
+      - target: "config/kwinrulesrc"

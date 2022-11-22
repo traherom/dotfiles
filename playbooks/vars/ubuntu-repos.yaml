@@ -1,0 +1,32 @@
+sources:
+- keyurl: https://downloads.1password.com/linux/keys/1password.asc
+  keyfilename: 1password.gpg
+  repofilename: 1password
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/1password.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
+- keyurl: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  keyfilename: nodesource.gpg
+  repofilename: nodesource
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
+- keyurl: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  keyfilename: nodesource.gpg
+  repofilename: nodesource
+  repo: deb-src [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
+- keyurl: https://packages.microsoft.com/keys/microsoft.asc
+  keyfilename: microsoft.gpg
+  repofilename: microsoft
+  repo: deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft.gpg] http://packages.microsoft.com/repos/code stable main
+- keyurl: https://repo.vivaldi.com/archive/linux_signing_key.pub
+  keyfilename: vivaldi.gpg
+  repofilename: vivaldi
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/vivaldi.gpg] https://repo.vivaldi.com/stable/deb/ stable main
+- keyurl: https://download.docker.com/linux/debian/gpg
+  keyfilename: docker.gpg
+  repofilename: docker
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu kinetic stable
+- keyurl: https://updates.signal.org/desktop/apt/keys.asc
+  keyfilename: signal.gpg
+  repofilename: signal
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/signal.gpg] https://updates.signal.org/desktop/apt xenial main
+
+ppas:
+  - ppa:kisak/kisak-mesa

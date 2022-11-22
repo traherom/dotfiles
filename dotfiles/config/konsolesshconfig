@@ -1,0 +1,69 @@
+[SSH Config][14ts]
+hostname=209.97.148.70
+identifier=14ts
+importedFromSshConfig=true
+port=
+profileName=Built-in
+sshkey=
+useSshConfig=true
+username=traherom
+
+[SSH Config][app]
+hostname=104.131.126.36
+identifier=app
+importedFromSshConfig=true
+port=
+profileName=Built-in
+sshkey=
+useSshConfig=true
+username=traherom
+
+[SSH Config][build]
+hostname=165.22.42.194
+identifier=build
+importedFromSshConfig=true
+port=
+profileName=Built-in
+sshkey=
+useSshConfig=true
+username=root
+
+[SSH Config][dev]
+hostname=138.197.75.183
+identifier=dev
+importedFromSshConfig=true
+port=
+profileName=Built-in
+sshkey=
+useSshConfig=true
+username=traherom
+
+[SSH Config][testing]
+hostname=138.197.9.84
+identifier=testing
+importedFromSshConfig=true
+port=
+profileName=Built-in
+sshkey=
+useSshConfig=true
+username=traherom
+
+[SSH Config][vm-centos7]
+hostname=192.168.122.231
+identifier=vm-centos7
+importedFromSshConfig=true
+port=
+profileName=Built-in
+sshkey=
+useSshConfig=true
+username=traherom
+
+[SSH Config][vm-centos8]
+hostname=192.168.122.240
+identifier=vm-centos8
+importedFromSshConfig=true
+port=
+profileName=
+sshkey=
+useSshConfig=true
+username=traherom

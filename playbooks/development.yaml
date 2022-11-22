@@ -1,36 +1,77 @@
 - name: Development systems
   hosts: development
   tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
+  - name: Allow ports used by KDE connect
+    become: yes
+    community.general.ufw:
+      rule: allow
+      port: 1714:1764
+      proto: tcp
 
-  # Install Vivaldi
-  # Install VS Code
+  - name: Adding development tools
+    become: yes
+    ansible.builtin.apt:
+      name: "{{ item }}"
+    with_items:
+      - vivaldi-stable
+      - code
+      - 1password
+      - 1password-cli
+      - signal-desktop
+      - flameshot
+
+  - name: Adding snap packages
+    snap:
+      name: discord
+      classic: yes
+
+  - name: Get JetBrains Toolbox
+    ansible.builtin.shell:
+      chdir: "~{{ ansible_user }}/bin/"
+      creates: jetbrains-toolbox
+      cmd: |
+        wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-{{ jetbrains_toolbox_version }}.tar.gz;
+        tar xaf jetbrains*.tar.gz;
+        mv jetbrains-toolbox-*/jetbrains-toolbox .;
+        rm -rf jetbrains-toolbox-*;
+    
+  - name: Point xylok.local to ourselves
+    become: yes
+    ansible.builtin.lineinfile:
+      path: /etc/hosts
+      regexp: '^127\.0\.0\.1'
+      line: 127.0.0.1 localhost xylok.local
+      # owner: root
+      # group: root
+      # mode: '0644'
+
   # Install JetBrains Toolbox
     # Make start on login
     # Make it install WebStorm/PyCharm/Rider?
   # Install 1Password
     # Configure ssh daemon access
     # Make start on login
-  # Install Discord
-  # Install Signal
   # Configure KDE Connect
   # Clone xylok repo?
-  # Install Fish
-    # Fish config files
   # Copy in
     # ...restart-kde script
     # ...KDE settings?
     # ...Vivaldi Profile?
-  # Enable firewall, allow SSH and wireguard port
-
 
 
 - name: Laptop
   hosts: devtop
   tasks:
+    - name: Add i386 to dpkg for Lutris/WINE driver's
+      become: yes
+      ansible.builtin.shell:
+        creates: "{{ state_storage_dir }}//.i386-added"
+        cmd: "dpkg --add-architecture i386 && touch {{ state_storage_dir }}//.i386-added"
     - name: Add intel mesa driver's for Lutris/WINE
-      ansible.builtin.apt_repository:
-        repo: deb https://ppa.launchpadcontent.net/kisak/kisak-mesa/ubuntu/ kinetic main
-        state: present
-        filename: kisak-ubuntu-kisak-mesa-kinetic.list
+      become: yes
+      ansible.builtin.apt:
+        name: "{{ item }}"
+      with_items:
+        - libgl1-mesa-dri:i386
+        - mesa-vulkan-drivers
+        - mesa-vulkan-drivers:i386

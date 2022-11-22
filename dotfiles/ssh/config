@@ -1,0 +1,37 @@
+#Host gitlab.com
+#    IdentityFile ~/.ssh/id_ecdsa
+#    IdentitiesOnly yes
+
+Host dev
+    HostName 138.197.75.183
+    User traherom
+
+Host app
+    HostName 104.131.126.36
+    User traherom
+
+Host testing
+    HostName 138.197.9.84
+    User traherom
+
+Host 14ts
+    HostName 209.97.148.70
+    User traherom
+
+
+Host build
+    HostName 165.22.42.194
+    User root
+
+Host vm-centos7
+    HostName 192.168.122.231
+    User traherom
+
+Host vm-centos8
+    HostName 192.168.122.240
+    User traherom
+
+Host *
+    IdentityAgent ~/.1password/agent.sock
+    Compression yes
+   

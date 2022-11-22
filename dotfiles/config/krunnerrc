@@ -1,0 +1,17 @@
+[General]
+FreeFloating=true
+
+[PlasmaRunnerManager]
+migrated=true
+
+[Plugins]
+appstreamEnabled=false
+bookmarksEnabled=false
+browserhistoryEnabled=false
+browsertabsEnabled=true
+katesessionsEnabled=false
+konsoleprofilesEnabled=false
+locationsEnabled=false
+placesEnabled=false
+recentdocumentsEnabled=false
+shellEnabled=false

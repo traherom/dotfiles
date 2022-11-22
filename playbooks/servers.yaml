@@ -1,13 +1,19 @@
 - name: DNS/DHCP Server
   hosts: public
   tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
+  - name: Allow server ports
+    become: yes
+    community.general.ufw:
+      rule: allow
+      port: 53
+      proto: udp
 
   # Install dnsmasq and config files
   # Install nginx and config files
   # Install wireguard config files, enable service 
   # Allow incoming HTTP/HTTPS
+  # Allow incoming DNS
+  # Allow incoming DHCP
 
 
 - name: VM Host

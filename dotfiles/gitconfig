@@ -1,0 +1,24 @@
+[user]
+	email = ryan@moreharts.com
+	name = Ryan
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH0U3L9n2pdFbIfRf8wTjFOlI3lWCwKz8LC2UNSaSuHu
+[core]
+	editor = nano
+	autocrlf = input
+[push]
+	default = simple
+	followTags = true
+[pull]
+	rebase = false
+[sequence]
+	editor = interactive-rebase-tool
+[cola]
+	spellcheck = false
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /opt/1Password/op-ssh-sign
+[commit]
+	gpgsign = true
+[init]
+	defaultBranch = master
