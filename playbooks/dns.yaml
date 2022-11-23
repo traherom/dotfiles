@@ -1,0 +1,106 @@
+- name: DNS/DHCP Server
+  hosts: dns
+  tasks:
+  - ansible.builtin.include_tasks: './tasks/allow-wireguard.yaml'
+  - name: Allow rate-limited SSH from outside the local network
+    become: yes
+    community.general.ufw:
+      rule: limit
+      port: ssh
+      proto: tcp
+  - name: Allow server ports
+    become: yes
+    community.general.ufw:
+      rule: allow
+      port: "{{ item.port }}"
+      src: "{{ item.src | default(network_netmask) }}"
+      proto: "{{ item.proto }}"
+    with_items:
+      - port: 53
+        proto: udp
+      - port: 67
+        proto: udp
+      - port: 68
+        proto: udp
+      - port: 80
+        proto: tcp
+        src: any
+      - port: 443
+        proto: tcp
+        src: any
+
+  - name: Adding server packages
+    become: yes
+    ansible.builtin.apt:
+      name: "{{ item }}"
+    with_items:
+      - qrencode
+      - dnsmasq
+      - dnscrypt-proxy
+      - nginx-core
+      # - python3-certbot-nginx
+
+  # Install nginx and config files
+  # TODO update wireguard file to account for system network device name
+
+  # Ensure network matches desired variables
+  - name: Updating netplan
+    become: yes
+    ansible.builtin.template:
+      src: "../dotfiles/system/netplan/static-template.yaml"
+      dest: /etc/netplan/99-server.yaml
+    register: netplan_updated
+
+  - name: Applying netplan
+    become: yes
+    when: "netplan_updated.changed"
+    ansible.builtin.shell: netplan apply
+
+  # Install wireguard config files, enable service
+  - name: Link concentrator Wireguard config
+    when: "dotfiles_copy_result.changed"
+    become: yes
+    ansible.builtin.file:
+      state: link
+      force: yes
+      path: "{{ item.path | default('/etc/' ~ item.target) }}"
+      src: "{{ dotfiles_path }}/system/{{ item.target }}"
+      owner: root
+      group: root
+    with_items:
+      - path: "/etc/wireguard/wg0.conf"
+        target: "wireguard-public-endpoint/wg0.conf"
+      - path: "/etc/wireguard/generate-client.sh"
+        target: "wireguard-public-endpoint/generate-client.sh"
+      - path: "/etc/dnsmasq.conf"
+        target: "dnsmasq.conf"
+      - path: "/etc/dnscrypt-proxy"
+        target: "dnscrypt-proxy"
+    register: system_configs_updated
+
+  - name: Initial config for Wireguard concentrator 
+    become: yes
+    ansible.builtin.shell:
+      chdir: /etc/wireguard
+      creates: server.key
+      cmd: |
+        wg genkey | sudo tee "server.key" | wg pubkey | sudo tee "server.key.pub"
+
+  - name: Enable wg0
+    become: yes
+    ansible.builtin.systemd:
+      name: wg-quick@wg0
+      enabled: yes
+      state: started
+
+  - name: Reload (possibly) affected system services
+    when: "system_configs_updated.changed"
+    ansible.builtin.systemd:
+      name: "{{ item }}"
+      enabled: yes
+      state: reloaded
+    with_items:
+      - dnsmasq
+      - dnscrypt-proxy
+      - wg-quick@wg0
+

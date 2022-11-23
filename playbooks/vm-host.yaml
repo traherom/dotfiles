@@ -1,0 +1,32 @@
+- name: VM Host
+  hosts: vm-host
+  tasks:
+  - name: Allow server ports
+    become: yes
+    community.general.ufw:
+      rule: allow
+      src: "{{ item.src | default(network_netmask) }}"
+      port: "{{ item.port }}"
+      proto: "{{ item.proto }}"
+    with_items:
+      # Allow for VNC/remote access to individual VMs
+      - port: 5900:5910
+        proto: udp
+
+  # KVM setup
+  - name: Adding server packages
+    become: yes
+    ansible.builtin.apt:
+      name: "{{ item }}"
+    with_items:
+      - qemu-kvm
+      - libvirt-daemon-system
+      - libvirt-clients
+      - bridge-utils
+
+  - name: Let our user use kvm
+    become: yes
+    ansible.builtin.user:
+      name: "{{ ansible_user }}"
+      groups: libvirt
+      append: yes

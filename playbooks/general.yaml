@@ -1,6 +1,16 @@
 - name: General
   hosts: all
   tasks:
+  - name: Load variables
+    ansible.builtin.include_vars:
+      dir: vars/
+
+  # - name: Debug
+  #   tags:
+  #     - TESTING
+  #   ansible.builtin.debug:
+  #     var: ansible_facts
+
   # Remote state tracker location
   - name: Creating location to track ansible status on remote
     become: yes
@@ -9,9 +19,11 @@
       state: directory
   
   # Sources
-  - name: Find repos
-    ansible.builtin.include_vars:
-      file: vars/ubuntu-repos.yaml
+  - name: Add apt keyring location
+    become: yes
+    file:
+      path: "/etc/apt/keyrings/"
+      state: directory
 
   - name: Keys for apt (ASC)
     become: yes
@@ -52,16 +64,27 @@
       update_cache: no
       name: "{{ item }}"
     with_items:
-      - git
-      - docker
+      # APT setup stuff?
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      # Core
+      - zram-config
       - wireguard-tools
-      - jq
-      - gdu
       - openssh-server
       - fish
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+      # General utils
       - curl
+      - git
       - unzip
       - pipx
+      - tmux
+      - vim
+      - jq
       
   - name: Adding snap packages
     become: yes
@@ -76,18 +99,19 @@
     community.general.ufw:
       state: enabled
       policy: allow
-  - name: Rate-limit SSH
+  - name: Allow unlimited SSH from inside the local network
+    become: yes
+    community.general.ufw:
+      rule: allow
+      port: ssh
+      proto: tcp
+      src: "{{ network_netmask }}"
+  - name: Allow rate-limited SSH from outside the local network
     become: yes
     community.general.ufw:
       rule: limit
       port: ssh
       proto: tcp
-  - name: Allow wireguard
-    become: yes
-    community.general.ufw:
-      rule: allow
-      port: 51820
-      proto: udp
   - name: Default-deny firewall
     become: yes
     community.general.ufw:
@@ -131,7 +155,8 @@
       - ".config/kdeconnect"
 
   # Add user to docker group
-  - name: Adding "{{ ansible_user }}" to docker group
+  - name: Adding user to docker group
+    become: yes
     ansible.builtin.user:
       name: "{{ ansible_user }}"
       groups: docker
@@ -150,7 +175,7 @@
       state: link
       force: yes
       path: "~{{ ansible_user }}/{{ item.path | default('.' ~ item.target) }}"
-      src: "{{ dotfiles_path }}/{{ item.target }}"
+      src: "{{ dotfiles_path }}/personal/{{ item.target }}"
     with_items:
       - target: "bashrc"
       - target: "bash_profile"
@@ -160,8 +185,8 @@
       - target: "i3"
       - target: "ssh/config"
       - target: "config/fish"
-      - target: "config/kdeconnect/f640db0c01bfba5b"
       - target: "config/starship.toml"
+      - target: "config/kdeconnect/f640db0c01bfba5b"
       - target: "config/katerc"
       - target: "config/kateschemarc"
       - target: "config/katevirc"
@@ -181,3 +206,26 @@
       - target: "config/kwalletrc"
       - target: "config/kwinrc"
       - target: "config/kwinrulesrc"
+
+  - name: Link system-wide config files
+    when: "dotfiles_copy_result.changed"
+    become: yes
+    ansible.builtin.file:
+      state: hard
+      force: yes
+      path: "{{ item.path | default('/etc/' ~ item.target) }}"
+      src: "{{ dotfiles_path }}/system/{{ item.target }}"
+      owner: root
+      group: root
+    with_items:
+      - path: "/etc/ssh/sshd_config"
+        target: "sshd_config"
+    register: system_configs_updated
+
+  - name: Reload affected system services
+    when: "system_configs_updated.changed"
+    become: yes
+    ansible.builtin.systemd:
+      name: ssh
+      enabled: yes
+      state: reloaded

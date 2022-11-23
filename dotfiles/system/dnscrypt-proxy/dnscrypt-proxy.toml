@@ -1,0 +1,33 @@
+# Empty listen_addresses to use systemd socket activation
+listen_addresses = ["127.0.0.1:5353"]
+#server_names = ['cleanbrowsing-security', 'cloudflare-security', 'doh-cleanbrowsing-security', 'adguard-dns', 'adguard-dns-doh']
+#server_names = ['adguard-dns', 'adguard-dns-doh', 'ahadns-doh-la', 'linuxsec-adguard']
+#server_names = []
+server_names = ['cs-tx', 'cs-il', 'sicher-surfen-de', 'zackptg5-us-il-ipv4', 'cloudflare', 'cs-la', 'wevpn-uswest', 'cs-nv', 'quad9-dnscrypt-ip4-nofilter-pri', 'quad9-doh-ip4-nofilter-pri', 'cs-ga', 'cs-ore', 'cs-nc', 'plan9-ns1', 'wevpn-useast', 'cs-nyc1', 'cs-nyc2', 'cs-dc', 'plan9-ns2', 'plan9-ns2-doh', 'cs-vancouver', 'nextdns', 'uncensoreddns-ipv4', 'opennic-luggs2', 'dnscrypt.ca-2', 'opennic-luggs', 'dnscrypt.ca-1', 'moulticast-ca-ipv4', 'dnscrypt.ca-2-doh', 'dnscrypt.ca-1-doh']
+require_nofilter = true
+block_ipv6 = false
+lb_strategy = 'p2'
+
+[query_log]
+  file = '/var/log/dnscrypt-proxy/query.log'
+
+[nx_log]
+  file = '/var/log/dnscrypt-proxy/nx.log'
+
+[sources]
+  [sources.'public-resolvers']
+  url = 'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md'
+  cache_file = '/var/cache/dnscrypt-proxy/public-resolvers.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 72
+  prefix = ''
+
+# [blocked_names]
+  ## Path to the file of blocking rules (absolute, or relative to the same directory as the config file)
+  # blocked_names_file = '/var/log/dnscrypt-proxy/blocked.log'
+
+  ## Optional path to a file logging blocked queries
+  # log_file = 'blocked-names.log'
+
+  ## Optional log format: tsv or ltsv (default: tsv)
+  # log_format = 'tsv'

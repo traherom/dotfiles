@@ -1,29 +1,20 @@
 all:
   vars:
     ansible_user: traherom
-    jetbrains_toolbox_version: "1.26.5.13419"
-    state_storage_dir: /.ansible-state-tracking
-    font:
-      name: UbuntuMono
-      version: v2.2.2
-    remote_pets_path: "~{{ ansible_user }}/.config/home-pets"
-    dotfiles_path: "{{ remote_pets_path }}/dotfiles"
-    op:
-      url: moreharts.1password.com
-      email: ryan@moreharts.com
-      secret: "{{ op_secret_key }}"
-
+    network_netmask: "10.0.0.0/8"
+    network_gateway: "10.0.0.1"
   children:
     development:
       hosts:
         devtop:
-          ansible_host:
-            devtop.home.moreharts.com
-    # servers:
-    #   hosts:
-    #     public:
-    #       ansible_host:
-    #         home.moreharts.com
-    #     vm-host:
-    #       ansible_host:
-    #         vm-host.home.moreharts.com
+          ansible_host: devtop.home.moreharts.com
+    servers:
+      hosts:
+        dns:
+          ansible_host: home.moreharts.com
+          network_interface: test
+          network:
+            interface: enxa0cec8d7d026
+            ip: "10.0.0.31/17"
+        vm-host:
+          ansible_host: vm-host.home.moreharts.com

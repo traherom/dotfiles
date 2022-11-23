@@ -1,10 +1,12 @@
 - name: Development systems
   hosts: development
   tasks:
+  - ansible.builtin.include_tasks: './tasks/allow-wireguard.yaml'
   - name: Allow ports used by KDE connect
     become: yes
     community.general.ufw:
       rule: allow
+      src: "{{ network_netmask }}"
       port: 1714:1764
       proto: tcp
 
@@ -19,6 +21,7 @@
       - 1password-cli
       - signal-desktop
       - flameshot
+      - virt-manager
 
   - name: Adding snap packages
     snap:
@@ -51,7 +54,6 @@
   # Install 1Password
     # Configure ssh daemon access
     # Make start on login
-  # Configure KDE Connect
   # Clone xylok repo?
   # Copy in
     # ...restart-kde script

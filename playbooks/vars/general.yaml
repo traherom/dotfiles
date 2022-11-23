@@ -1,0 +1,10 @@
+jetbrains_toolbox_version: "1.26.5.13419"
+state_storage_dir: /.ansible-state-tracking
+font:
+  name: UbuntuMono
+  version: v2.2.2
+
+remote_pets_path: "~{{ ansible_user }}/.config/home-pets"
+dotfiles_path: "{{ remote_pets_path }}/dotfiles"
+
+linker_path: "{{ remote_pets_path }}/playbooks/scripts/linker.sh"

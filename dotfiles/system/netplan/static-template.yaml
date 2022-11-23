@@ -1,0 +1,13 @@
+network:
+  ethernets:
+    {{ network.interface }}:
+      dhcp4: false
+      addresses:
+        - {{ network.ip }}
+      gateway4: {{ network_gateway }}
+      nameservers:
+        addresses:
+          - 127.0.0.1
+          - 8.8.8.8
+          - 1.1.1.1
+  version: 2

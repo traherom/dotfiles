@@ -6,11 +6,11 @@ sources:
 - keyurl: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
   keyfilename: nodesource.gpg
   repofilename: nodesource
-  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x {{ ansible_facts.distribution_release }} main
 - keyurl: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
   keyfilename: nodesource.gpg
   repofilename: nodesource
-  repo: deb-src [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x kinetic main
+  repo: deb-src [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_19.x {{ ansible_facts.distribution_release }} main
 - keyurl: https://packages.microsoft.com/keys/microsoft.asc
   keyfilename: microsoft.gpg
   repofilename: microsoft
@@ -19,10 +19,10 @@ sources:
   keyfilename: vivaldi.gpg
   repofilename: vivaldi
   repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/vivaldi.gpg] https://repo.vivaldi.com/stable/deb/ stable main
-- keyurl: https://download.docker.com/linux/debian/gpg
+- keyurl: https://download.docker.com/linux/ubuntu/gpg
   keyfilename: docker.gpg
   repofilename: docker
-  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu kinetic stable
+  repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
 - keyurl: https://updates.signal.org/desktop/apt/keys.asc
   keyfilename: signal.gpg
   repofilename: signal
