@@ -7,4 +7,4 @@ font:
 remote_pets_path: "~{{ ansible_user }}/.config/home-pets"
 dotfiles_path: "{{ remote_pets_path }}/dotfiles"
 
-linker_path: "{{ remote_pets_path }}/playbooks/scripts/linker.sh"
+linker_path: "{{ remote_pets_path }}/files/linker.sh"

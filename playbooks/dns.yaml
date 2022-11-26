@@ -60,13 +60,12 @@
   - name: Link concentrator Wireguard config
     when: "dotfiles_copy_result.changed"
     become: yes
-    ansible.builtin.file:
-      state: link
-      force: yes
-      path: "{{ item.path | default('/etc/' ~ item.target) }}"
-      src: "{{ dotfiles_path }}/system/{{ item.target }}"
-      owner: root
-      group: root
+    ansible.builtin.command:
+      argv:
+      - bash
+      - "{{ linker_path }}"
+      - "{{ dotfiles_path }}/system/{{ item.target }}"
+      - "{{ item.path | default('/etc/' ~ item.target) }}"
     with_items:
       - path: "/etc/wireguard/wg0.conf"
         target: "wireguard-public-endpoint/wg0.conf"
@@ -98,7 +97,7 @@
     ansible.builtin.systemd:
       name: "{{ item }}"
       enabled: yes
-      state: reloaded
+      state: restarted
     with_items:
       - dnsmasq
       - dnscrypt-proxy

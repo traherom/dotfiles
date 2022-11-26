@@ -1,0 +1,52 @@
+- name: DNS/DHCP Server
+  hosts: dns
+  tasks:
+  - ansible.builtin.include_tasks: './tasks/allow-wireguard.yaml'
+  - name: Allow HTTPS access for 1password bridge
+    become: yes
+    community.general.ufw:
+      rule: limit
+      port: ssh
+      proto: tcp
+  - name: Allow server ports
+    become: yes
+    community.general.ufw:
+      rule: allow
+      port: "{{ item.port }}"
+      src: "{{ item.src | default(network_netmask) }}"
+      proto: "{{ item.proto }}"
+    with_items:
+      - port: 80
+        proto: tcp
+        src: any
+      - port: 443
+        proto: tcp
+        src: any
+
+  - name: Adding server packages
+    become: yes
+    ansible.builtin.apt:
+      name: "{{ item }}"
+    with_items:
+      - dotnet
+      - nginx-core
+
+  # Install nginx and config files
+  # TODO update wireguard file to account for system network device name
+
+  - name: Add 1password Conect user
+    ansible.builtin.user:
+      name: opuser
+      password: '*'
+      password_lock: true
+      system: true
+
+  - name: Reload (possibly) affected system services
+    when: "system_configs_updated.changed"
+    ansible.builtin.systemd:
+      name: "{{ item }}"
+      enabled: yes
+      state: restarted
+    with_items:
+      - nginx
+

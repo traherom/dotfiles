@@ -2,14 +2,10 @@
   hosts: all
   tasks:
   - name: Load variables
+    tags:
+      - TESTING
     ansible.builtin.include_vars:
       dir: vars/
-
-  # - name: Debug
-  #   tags:
-  #     - TESTING
-  #   ansible.builtin.debug:
-  #     var: ansible_facts
 
   # Remote state tracker location
   - name: Creating location to track ansible status on remote
@@ -171,11 +167,12 @@
 
   - name: Link config files to dotfiles
     when: "dotfiles_copy_result.changed"
-    ansible.builtin.file:
-      state: link
-      force: yes
-      path: "~{{ ansible_user }}/{{ item.path | default('.' ~ item.target) }}"
-      src: "{{ dotfiles_path }}/personal/{{ item.target }}"
+    ansible.builtin.command:
+      argv:
+      - bash
+      - "{{ linker_path }}"
+      - "{{ dotfiles_path }}/personal/{{ item.target }}"
+      - "~{{ ansible_user }}/{{ item.path | default('.' ~ item.target) }}"
     with_items:
       - target: "bashrc"
       - target: "bash_profile"
@@ -206,17 +203,17 @@
       - target: "config/kwalletrc"
       - target: "config/kwinrc"
       - target: "config/kwinrulesrc"
+    register: link_output
 
   - name: Link system-wide config files
     when: "dotfiles_copy_result.changed"
     become: yes
-    ansible.builtin.file:
-      state: hard
-      force: yes
-      path: "{{ item.path | default('/etc/' ~ item.target) }}"
-      src: "{{ dotfiles_path }}/system/{{ item.target }}"
-      owner: root
-      group: root
+    ansible.builtin.command:
+      argv:
+      - bash
+      - "{{ linker_path }}"
+      - "{{ dotfiles_path }}/system/{{ item.target }}"
+      - "{{ item.path | default('/etc/' ~ item.target) }}"
     with_items:
       - path: "/etc/ssh/sshd_config"
         target: "sshd_config"
