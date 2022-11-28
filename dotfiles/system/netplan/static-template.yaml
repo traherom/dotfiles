@@ -3,8 +3,8 @@ network:
     {{ network.interface }}:
       dhcp4: false
       addresses:
-        - {{ network.ip }}
-      gateway4: {{ network_gateway }}
+        - "{{ network.ip }}/{{ network.subnet }}"
+      gateway4: "{{ network_gateway }}"
       nameservers:
         addresses:
           - 127.0.0.1

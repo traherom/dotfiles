@@ -1,4 +1,6 @@
 - import_playbook: './playbooks/general.yaml'
 - import_playbook: './playbooks/development.yaml'
+- import_playbook: './playbooks/dmz.yaml'
 - import_playbook: './playbooks/dns.yaml'
 - import_playbook: './playbooks/vm-host.yaml'
+# - import_playbook: './playbooks/build.yaml'

@@ -10,11 +10,19 @@ all:
           ansible_host: devtop.home.moreharts.com
     servers:
       hosts:
+        build:
+          ansible_host: build.xylok.io
         dns:
-          ansible_host: home.moreharts.com
+          ansible_host: dns.home.moreharts.com
           network_interface: test
           network:
             interface: enxa0cec8d7d026
-            ip: "10.0.0.31/17"
+            ip: "10.0.0.31"
+            subnet: "17"
+        dmz:
+          ansible_host: dmz.home.moreharts.com
+          nginx_hosts:
+            - ha.moreharts.com
+            - dns.moreharts.com
         vm-host:
           ansible_host: vm-host.home.moreharts.com

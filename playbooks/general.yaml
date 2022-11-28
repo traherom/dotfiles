@@ -3,7 +3,7 @@
   tasks:
   - name: Load variables
     tags:
-      - TESTING
+      - always
     ansible.builtin.include_vars:
       dir: vars/
 
@@ -74,6 +74,7 @@
       - containerd.io
       - docker-compose-plugin
       # General utils
+      - fontconfig
       - curl
       - git
       - unzip
@@ -160,13 +161,16 @@
 
   # Link up dotfiles
   - name: Copy dotfiles to host
+    tags:
+      - dotfiles
     ansible.builtin.copy:
-      src: '../'
+      src: '../../'
       dest: "{{ remote_pets_path }}"
     register: dotfiles_copy_result
 
-  - name: Link config files to dotfiles
-    when: "dotfiles_copy_result.changed"
+  - name: Link personal config files to dotfiles
+    tags:
+      - dotfiles
     ansible.builtin.command:
       argv:
       - bash
@@ -205,18 +209,11 @@
       - target: "config/kwinrulesrc"
     register: link_output
 
-  - name: Link system-wide config files
-    when: "dotfiles_copy_result.changed"
+  - name: Template out system-wide config files
     become: yes
-    ansible.builtin.command:
-      argv:
-      - bash
-      - "{{ linker_path }}"
-      - "{{ dotfiles_path }}/system/{{ item.target }}"
-      - "{{ item.path | default('/etc/' ~ item.target) }}"
-    with_items:
-      - path: "/etc/ssh/sshd_config"
-        target: "sshd_config"
+    ansible.builtin.template:
+      src: "../dotfiles/system/sshd_config"
+      dest: "/etc/ssh/sshd_config"
     register: system_configs_updated
 
   - name: Reload affected system services

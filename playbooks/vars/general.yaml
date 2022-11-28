@@ -4,7 +4,10 @@ font:
   name: UbuntuMono
   version: v2.2.2
 
+op_connect_user: opconnect
+
 remote_pets_path: "~{{ ansible_user }}/.config/home-pets"
 dotfiles_path: "{{ remote_pets_path }}/dotfiles"
 
-linker_path: "{{ remote_pets_path }}/files/linker.sh"
+linker_path: "{{ remote_pets_path }}/playbooks/files/linker.sh"
+nginx_config_helper_path: "{{ remote_pets_path }}/playbooks/files/nginx-config-helper.sh"

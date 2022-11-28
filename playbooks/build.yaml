@@ -32,21 +32,40 @@
       - nginx-core
 
   # Install nginx and config files
-  # TODO update wireguard file to account for system network device name
+  - import_tasks: './nginx-with-letsencrypt.yaml'
 
   - name: Add 1password Conect user
+    become: yes
     ansible.builtin.user:
-      name: opuser
+      name: "{{ op_connect_user }}"
+      home: "/home/{{ op_connect_user }}/"
       password: '*'
       password_lock: true
       system: true
+      groups: docker
+
+  - name: Copy 1Password Connect files
+    become: yes
+    ansible.builtin.copy:
+      src: ../dotfiles/system/op-connect/
+      dest: "/home/{{ op_connect_user }}"
+      owner: "{{ op_connect_user }}"
+      group: "{{ op_connect_user }}"
+
+  - name: Link 1Password Connect systemd unit file
+  - name: Link concentrator Wireguard config
+    become: yes
+    ansible.builtin.template:
+      src: "../dotfiles/system/op-connect/opconnect.service"
+      dest: "/lib/systemd/system/opconnect.service"
+    register: wireguard_configs_updated
 
   - name: Reload (possibly) affected system services
-    when: "system_configs_updated.changed"
+    become: yes
     ansible.builtin.systemd:
       name: "{{ item }}"
       enabled: yes
       state: restarted
     with_items:
-      - nginx
+      - opconnect
 

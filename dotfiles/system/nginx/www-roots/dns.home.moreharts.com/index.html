@@ -1,0 +1,47 @@
+<html>
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div x-data="leases">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>IP</th>
+                    <th>MAC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template x-for="entry in filterdEntries">
+                    <tr>
+                        <td x-text="entry.name"></td>
+                        <td x-text="entry.ip"></td>
+                        <td x-text="entry.mac"></td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('leases', () => ({
+                entries: [],
+
+                async init() {
+                    const resp = await fetch('/dns.leases');
+                    const body = await resp.text();
+                    this.entries = body
+                        .split("\n")
+                        .map(x => x.split(" "))
+                        .map(x => {
+                            const[_, mac, ip, name] = x;
+                            return {mac, ip, name};
+                        });
+                },
+            }));
+        });
+    </script>
+</body>
+</html>

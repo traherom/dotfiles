@@ -1,0 +1,20 @@
+[Unit]
+Description=1password Connect
+Documentation=https://developer.1password.com/docs/connect/get-started#step-2-deploy-1password-connect-server
+After=network-online.target docker.service firewalld.service containerd.service time-set.target
+Wants=network-online.target containerd.service
+Requires=docker.service
+
+StartLimitBurst=3
+StartLimitInterval=60s
+
+[Service]
+Type=notify
+WorkingDirectory=/home/opconnect/
+ExecStart=docker-compose up
+TimeoutStartSec=0
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

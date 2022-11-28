@@ -1,4 +1,6 @@
 - name: Allow wireguard
+  tags:
+    - firewall
   become: yes
   community.general.ufw:
     rule: allow
