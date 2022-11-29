@@ -10,20 +10,5 @@
       port: ssh
       proto: tcp
 
-  - name: Allow server ports
-    become: yes
-    community.general.ufw:
-      rule: allow
-      port: "{{ item.port }}"
-      src: "{{ item.src | default(network_netmask) }}"
-      proto: "{{ item.proto | default('any') }}"
-    with_items:
-      - port: 80
-        proto: tcp
-        src: any
-      - port: 443
-        proto: tcp
-        src: any
-
   # Install nginx and config files
   - import_tasks: './nginx-with-letsencrypt.yaml'

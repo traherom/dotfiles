@@ -8,6 +8,8 @@ all:
       hosts:
         devtop:
           ansible_host: devtop.home.moreharts.com
+        speeder:
+          ansible_host: speeder.home.moreharts.com
     servers:
       hosts:
         build:

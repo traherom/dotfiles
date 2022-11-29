@@ -76,7 +76,9 @@
         dest: "/etc/dnsmasq.conf"
       - src: "dnscrypt-proxy/dnscrypt-proxy.toml"
         dest: "/etc/dnscrypt-proxy/dnscrypt-proxy.toml"
-      - src: "nginx/sites-available/dns.home.moreharts.com.conf"
+      - src: "nginx/nginx.conf"
+        dest: "/etc/nginx/nginx.conf"
+      - src: "nginx/sites-available/dns.conf"
         dest: "/etc/nginx/sites-enabled/"
     register: system_configs_updated
 
@@ -85,11 +87,8 @@
       - nginx
     become: yes
     ansible.builtin.template:
-      src: "../dotfiles/system/{{ item.src }}"
-      dest: "{{ item.dest }}"
-    with_items:
-      - src: "nginx/www-roots/dns.home.moreharts.com/index.html"
-        dest: "/var/www/html/"
+      src: "../dotfiles/system/nginx/www-roots/dns/index.html"
+      dest: "/var/www/index.html"
     register: system_configs_updated
 
   - name: Initial config for Wireguard concentrator 
@@ -103,7 +102,7 @@
         wg genkey | sudo tee "server.key" | wg pubkey | sudo tee "server.key.pub"
 
   - name: Reload (possibly) affected system services
-    when: "system_configs_updated.changed"
+    # when: "system_configs_updated.changed"
     become: yes
     tags:
       - services

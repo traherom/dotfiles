@@ -25,13 +25,23 @@
     - nginx-core
     - python3-certbot-nginx
 
-- name: Setup nginx config and certbot
-  become: yes
+- name: Copy nginx files to host
   tags:
     - nginx
+  ansible.builtin.copy:
+    src: '../../dotfiles/system/nginx/'
+    dest: "/tmp/nginx-ansible-config/"
+  register: nginx_config_result
+
+- name: Setup nginx config and certbot
+  tags:
+    - nginx
+  # when: "nginx_config_result.changed"
+  become: yes
   ansible.builtin.command:
     argv:
       - bash
-      - "{{ nginx_config_helper_path }}"
+      - /tmp/nginx-ansible-config/nginx-config-helper.sh
       - "{{ item }}"
+  ignore_errors: false
   with_items: "{{ nginx_hosts }}"
