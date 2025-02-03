@@ -1,1 +1,4 @@
-source "/home/traherom/.deno/env.fish"
+if test -f ~/.deno/env.fish
+    source ~/.deno/env.fish
+end
+
