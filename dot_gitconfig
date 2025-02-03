@@ -1,0 +1,11 @@
+[user]
+	email = ryan@moreharts.com
+	name = Ryan Morehart
+[safe]
+	directory = /mnt/volume_nyc1_01/tmp/xylok-build/code
+[alias]
+	slog = log --graph --all --topo-order
+[push]
+	default = current
+[editor]
+	core = nvim

@@ -1,0 +1,1 @@
+source "/home/traherom/.deno/env.fish"

@@ -1,0 +1,218 @@
+
+#set mod key to super
+set $mod Mod4
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod normal
+
+#key bindings bindings go here. Using --to-code so that they work in different keyboard layouts
+bindsym --to-code {
+    # start a terminal
+    $mod+Return exec foot
+
+    #program launcher
+    #$mod+d exec urxvtc --title menu_term -e menu.sh
+    $mod+p exec wofi --show drun
+
+    #clipboard history script similar to menu, but disabled for now
+    #wl-clipboard-history doesn't allow copy/pasting of images or files
+    #$mod+c exec urxvtc --title menu_term -e clipboard
+    
+    #color picker script
+    $mod+c exec color-picker
+
+    # kill focused window
+    $mod+shift+q kill
+
+    # lock screen
+    $mod+g exec lock
+
+    # lock screen and turn screen off
+    $mod+shift+g exec lock-screen-off
+
+    # change focus
+    $mod+h focus left
+    $mod+j focus down
+    $mod+k focus up
+    $mod+l focus right
+
+    # alternatively, you can use the cursor keys:
+    $mod+left focus left
+    $mod+down focus down
+    $mod+up focus up
+    $mod+right focus right
+
+    # move focused window
+    $mod+shift+h move left
+    $mod+shift+j move down
+    $mod+shift+k move up
+    $mod+shift+l move right
+
+    # alternatively, you can use the cursor keys:
+    $mod+shift+left move left
+    $mod+shift+down move down
+    $mod+shift+up move up
+    $mod+shift+right move right
+
+    # split in horizontal orientation
+    $mod+shift+v splith
+
+    # split in vertical orientation
+    $mod+v splitv
+
+    # enter fullscreen mode for the focused container
+    $mod+f fullscreen
+
+    # change container layout (stacked, tabbed, toggle split)
+    $mod+s layout stacking
+    $mod+w layout tabbed
+    $mod+e layout toggle split
+
+    # toggle tiling / floating
+    $mod+shift+f floating toggle
+
+    # change focus between tiling / floating windows
+    $mod+o focus mode_toggle
+
+    # focus the parent container
+    $mod+a focus parent
+
+    # focus the child container
+    $mod+shift+a focus child
+
+    # switch to workspace
+    $mod+1 workspace 1
+    $mod+2 workspace 2
+    $mod+3 workspace 3
+    $mod+4 workspace 4
+    $mod+5 workspace 5
+    $mod+6 workspace 6
+    $mod+7 workspace 7
+    $mod+8 workspace 8
+    $mod+9 workspace 9
+    $mod+0 workspace 10
+    $mod+comma exec prev-workspace 
+    $mod+period exec next-workspace
+
+
+    # move focused container to workspace
+    $mod+shift+1 move container to workspace 1
+    $mod+shift+2 move container to workspace 2
+    $mod+Shift+3 move container to workspace 3
+    $mod+Shift+4 move container to workspace 4
+    $mod+Shift+5 move container to workspace 5
+    $mod+Shift+6 move container to workspace 6
+    $mod+Shift+7 move container to workspace 7
+    $mod+Shift+8 move container to workspace 8
+    $mod+Shift+9 move container to workspace 9
+    $mod+Shift+0 move container to workspace 10
+    $mod+greater exec next-workspace-move-container
+    $mod+Shift+comma exec prev-workspace-move-container
+
+    # reload the configuration file
+    $mod+shift+c reload
+
+    #resize key
+    $mod+r mode "resize"
+
+    #flashfocus key
+    $mod+n exec nc_flash_window
+
+    #screenshot controls (uses my screenshot scripts)
+    Print exec screenshot
+    shift+Print exec screenshot-area
+
+    #open a file manager
+    $mod+z exec thunar
+    $mod+x exec google-chrome
+
+    #open pulsemixer dialog
+    $mod+shift+m exec termite --title pulsemixer_term -e pulsemixer
+
+    XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+    # Sreen brightness controls
+    XF86MonBrightnessUp exec light -A 10 #increase screen brightness
+    XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
+}
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym --to-code {
+            h resize shrink width 10 px or 10 ppt
+            j resize grow height 10 px or 10 ppt
+            k resize shrink height 10 px or 10 ppt
+            l resize grow width 10 px or 10 ppt
+
+            # same bindings, but for the arrow keys
+            Left resize shrink width 10 px or 10 ppt
+            Down resize grow height 10 px or 10 ppt
+            Up resize shrink height 10 px or 10 ppt
+            Right resize grow width 10 px or 10 ppt
+
+            # back to normal: Enter or Escape
+            Return mode "default"
+            Escape mode "default"
+        }
+}
+
+#window rules for my menu popup and drop down terminal using the scratchpad
+for_window [title="^menu_term$"] floating enable, resize set width 50 ppt height 50 ppt, move center
+for_window [title="^screensaver$"] fullscreen toggle global
+for_window [title="^drop_down_term$"] floating enable, resize set width 100 ppt height 60 ppt, move position 0px 0px, move scratchpad
+for_window [title="^wifi_term$"] floating enable, resize set width 36 ppt height 39 ppt, move center
+for_window [title="^pulsemixer_term$"] floating enable, resize set width 36 ppt height 39 ppt, move center
+#for_window [app_id="^mpv$"] floating enable
+
+
+#general settings
+gaps inner 5
+gaps outer 0
+#hide mouse on inactivity
+seat * hide_cursor 10000
+#font Roboto:size=11
+default_floating_border pixel 2
+default_border pixel 3
+hide_edge_borders none
+focus_follows_mouse no
+# border colors
+client.focused		#ff6e67 #ff6e67 #ff6e67 #ffc1bd #ff6e67
+#client.focused          #bababa #bababa #bababa #dadada #bababa
+client.unfocused	#b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8
+client.focused_inactive	#b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8
+
+#startup programs
+#exec waybar
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec swayidle
+exec nm-applet --indicator
+exec blueman-applet
+exec fnott
+#exec /usr/libexec/polkit-kde-authentication-agent-1
+exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
+exec signal-desktop --use-tray-icon --start-in-tray --ozone-platform-hint=auto
+exec discord --ozone-platform-hint=auto
+exec 1password --ozone-platform-hint=auto
+exec dropbox
+exec vorta -d
+#input 1:1:AT_Translated_Set_2_keyboard xkb_numlock enable
+#this remains unused until I can copy files/images while it runs
+#exec wl-clipboard-history -t
+
+bar {
+    swaybar_command waybar
+}
+
+# keyboard layouts
+input * xkb_layout "us"
+#input * xkb_options "grp:win_space_toggle"
+input * xkb_options "caps:escape"
+
