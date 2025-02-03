@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ -z "$WAYLAND_DISPLAY" ]]; then
+  ssh local wl-paste-remote
+else
+  /usr/bin/wl-paste
+fi

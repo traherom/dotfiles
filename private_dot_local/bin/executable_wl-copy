@@ -1,0 +1,8 @@
+#!/bin/bash
+if [[ -z "$WAYLAND_DISPLAY" ]]; then
+  echo Doing remote copy
+  ssh local wl-copy-remote
+else
+  echo Should do local copy
+  /usr/bin/wl-copy
+fi
