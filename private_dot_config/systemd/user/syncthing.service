@@ -1,0 +1,15 @@
+[Unit]
+Description=Syncthing Daemon
+Documentation=https://github.com/jtroo/kanata
+
+[Service]
+; Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
+; Environment=DISPLAY=:0
+; Environment=HOME=/home/traherom
+Type=simple
+ExecStart=/usr/bin/syncthing serve --no-browser
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
