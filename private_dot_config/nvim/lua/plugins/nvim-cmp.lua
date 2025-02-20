@@ -1,4 +1,7 @@
 -- stylua: ignore
+if true then return {} end
+
+-- stylua: ignore
 --if true then return {} end
 local lspkind_comparator = function(conf)
   local lsp_types = require('cmp.types').lsp
