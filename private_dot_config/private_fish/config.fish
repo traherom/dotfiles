@@ -2,6 +2,7 @@ set fish_greeting
 
 fish_vi_key_bindings
 
+
 # Enable command history search via fzf.                                    
 function reverse_history_search
     history | fzf --no-sort | read -l command
@@ -21,10 +22,15 @@ function fish_user_key_bindings
     end
 end
 
+if type -q nvim
+    set -xg EDITOR nvim
+    set -xg VISUAL nvim
+end
+
 if status is-interactive
     # Interactive-only stuff
 end
 
-if command -v starship >/dev/null >&1
+if type -q starship
     starship init fish | source
 end
