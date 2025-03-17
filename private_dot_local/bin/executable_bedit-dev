@@ -1,5 +1,6 @@
 #!/bin/sh
-base=/mnt/volume_nyc1_01/src/xylok/components/go/cmd/bedit
+base=/mnt/bulk/src/xylok/components/go/cmd/bedit
+base=/mnt/bulk/src/dev/runner-hashbags/components/go/cmd/bedit
 pushd "$base" >/dev/null
 go build . || exit 1
 popd >/dev/null

@@ -28,3 +28,4 @@ if [ -f ~/.deno/env ]; then
   . ~/.deno/env
 fi
 
+source /home/traherom/.local/share/bash-completion/completions/deno.bash
