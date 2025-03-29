@@ -1,0 +1,3 @@
+return {
+    'pope/vim-sleuth',
+}
