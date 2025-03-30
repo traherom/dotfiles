@@ -9,3 +9,5 @@
 	default = current
 [editor]
 	core = nvim
+[init]
+	defaultBranch = main
