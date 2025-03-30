@@ -6,7 +6,6 @@
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -21,27 +20,32 @@ vim.opt.swapfile = false
 -- Update terminal title with current file
 vim.opt.title = true
 
--- Sync clipboard between OS and Neovim.
+-- Sync clipboard between OS and Neovim and use OSC 52 terminal code for
+-- copying and pasting. Forced in case it isn't detected for the terminal.
+--
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-  --vim.opt.clipboard = 'unnamedplus'
+  vim.opt.clipboard = 'unnamedplus'
+
+  --  You can test OSC 52 in terminal by using following in your terminal -
+  --  printf $'\e]52;c;%s\a' "$(base64 <<<'hello world')"
+  --  Is this function needed?
+  local function paste(reg)
+    return { vim.fn.split(vim.fn.getreg(reg), '\n'), vim.fn.getregtype(reg) }
+  end
+  local osc52 = require 'vim.ui.clipboard.osc52'
   vim.g.clipboard = {
-    name = 'wl-copy',
+    name = 'OSC 52',
     copy = {
-      ['+'] = 'wl-copy',
-      ['*'] = 'wl-copy',
+      ['+'] = osc52.copy '+',
+      ['*'] = osc52.copy '+',
     },
     paste = {
-      ['+'] = function()
-        return vim.fn.systemlist("wl-paste | sed -e 's/\r$//'", { '' }, 1) -- '1' keeps empty lines
-      end,
-      ['*'] = function()
-        return vim.fn.systemlist("wl-paste |sed -e 's/\r$//'", { '' }, 1)
-      end,
+      ['+'] = paste '+',
+      ['*'] = paste '+',
     },
-    cache_enabled = true,
   }
 end)
 
