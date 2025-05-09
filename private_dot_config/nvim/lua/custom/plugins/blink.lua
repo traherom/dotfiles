@@ -27,12 +27,53 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = {
+      documentation = { auto_show = false },
+      -- accept = {
+      --   auto_brackets = {
+      --     enabled = true,
+      --   },
+      -- },
+      menu = {
+        draw = {
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                return kind_icon
+              end,
+              -- (optional) use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                return hl
+              end,
+            },
+            kind = {
+              -- (optional) use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                return hl
+              end,
+            },
+          },
+        },
+      },
+    },
+
+    --snippets = { preset = 'mini_snippets' },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'path', 'buffer' },
+      default = { 'lsp', 'snippets', 'path', 'buffer' },
+    },
+
+    signature = {
+      enabled = true,
+      window = { show_documentation = true },
+      trigger = {
+        enabled = true,
+      },
     },
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance

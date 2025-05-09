@@ -18,13 +18,18 @@ return {
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
+      require('mini.icons').setup()
+
       require('mini.files').setup {
         options = {
-          use_as_default_explorer = true,
+          use_as_default_explorer = false,
         },
       }
 
       --require('mini.completion').setup()
+      --require('mini.snippets').setup()
+
+      require('mini.indentscope').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -45,13 +50,13 @@ return {
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
     keys = {
-      {
-        '<leader>e',
-        function()
-          MiniFiles.open()
-        end,
-        desc = 'Open file browser',
-      },
+      -- {
+      --   '<leader>E',
+      --   function()
+      --     MiniFiles.open()
+      --   end,
+      --   desc = 'Open file browser',
+      -- },
     },
   },
 }

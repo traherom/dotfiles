@@ -1,6 +1,18 @@
 #!/bin/sh
-base=/mnt/bulk/src/xylok/components/go/cmd/bedit
-base=/mnt/bulk/src/dev/runner-hashbags/components/go/cmd/bedit
+base=$(pwd)
+while true ; do
+	base=$(dirname "$base")
+	if [[ "$(basename $base)" == "components" ]]; then 
+		base="$base/go/cmd/bedit"
+		break
+	fi
+	if [[ "$base" == "/" ]]; then 
+		echo "failed to find components directory from $(pwd)"
+		exit 1
+	fi
+done
+
+echo build from: $base
 pushd "$base" >/dev/null
 go build . || exit 1
 popd >/dev/null

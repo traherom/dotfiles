@@ -1,3 +1,24 @@
+-- return {
+--   'neovim/nvim-lspconfig',
+--   dependencies = { 'saghen/blink.cmp' },
+--
+--   -- example using `opts` for defining servers
+--   opts = {
+--     servers = {
+--       lua_ls = {},
+--     },
+--   },
+--   config = function(_, opts)
+--     local lspconfig = require 'lspconfig'
+--     for server, config in pairs(opts.servers) do
+--       -- passing config.capabilities to blink.cmp merges with the capabilities in your
+--       -- `opts[server].capabilities, if you've defined it
+--       config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+--       lspconfig[server].setup(config)
+--     end
+--   end,
+-- }
+
 -- LSP Plugins
 return {
   {
@@ -101,7 +122,7 @@ return {
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('<leader>cr', vim.lsp.buf.rename, '[R]ename variable')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -266,15 +287,7 @@ return {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-
-            -- passing config.capabilities to blink.cmp merges with the capabilities in your
-            -- `opts[server].capabilities, if you've defined it
             server.capabilities = blinkcmp.get_lsp_capabilities(server.capabilities)
-
             require('lspconfig')[server_name].setup(server)
           end,
         },

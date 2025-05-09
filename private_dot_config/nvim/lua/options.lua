@@ -20,6 +20,18 @@ vim.opt.swapfile = false
 -- Update terminal title with current file
 vim.opt.title = true
 
+-- Don't wrap text by default
+vim.opt.wrap = false
+
+-- Colorscheme, apply after the colorschemes are loaded
+vim.schedule(function()
+  --vim.cmd.colorscheme 'sonokai'
+  --vim.cmd.colorscheme 'no-clown-fiesta'
+  vim.cmd.colorscheme 'minicyan'
+  -- Dark background by default
+  vim.opt.background = 'dark'
+end)
+
 -- Sync clipboard between OS and Neovim and use OSC 52 terminal code for
 -- copying and pasting. Forced in case it isn't detected for the terminal.
 --
@@ -76,7 +88,8 @@ vim.opt.splitbelow = true
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+--vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'

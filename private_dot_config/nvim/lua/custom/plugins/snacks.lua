@@ -7,7 +7,14 @@ return {
     bigfile = { enabled = true },
     dashboard = { enabled = false },
     explorer = { enabled = false },
-    indent = { enabled = true },
+    indent = {
+      enabled = false,
+      only_scope = true,
+      scope = {
+        enabled = false,
+      },
+      chunk = { enabled = true },
+    },
     input = { enabled = true },
     notifier = {
       enabled = true,
@@ -62,13 +69,13 @@ return {
       end,
       desc = 'Notification History',
     },
-    -- {
-    --   '<leader>e',
-    --   function()
-    --     Snacks.explorer()
-    --   end,
-    --   desc = 'File Explorer',
-    -- },
+    {
+      '<leader>e',
+      function()
+        Snacks.explorer()
+      end,
+      desc = 'File Explorer',
+    },
     -- find
     {
       '<leader>fb',
